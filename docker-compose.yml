@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:13
+    ports:
+      - '5431:5431'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_DB=is'
+      - 'POSTGRES_PASSWORD=postgres'
+    command: -p 5431
