@@ -28,6 +28,10 @@
                 <constraints checkConstraint="CHECK(oscars_count &lt;= 0)"/>
             </column>
 
+            <column name="budget" type="double">
+                <constraints checkConstraint="CHECK(budget &lt;= 0)"/>
+            </column>
+
             <column name="total_box_office" type="float">
                 <constraints checkConstraint="CHECK(total_box_office &lt;= 0)"/>
             </column>

@@ -6,11 +6,13 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.enterprise.context.ApplicationScoped;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
 
 @ApplicationScoped
+@Slf4j
 public class JwtUtil {
 
     private String subject = "User details";
@@ -21,28 +23,16 @@ public class JwtUtil {
 
     private String secret = "se.ifmo";
 
-    private long confirmTime = 15;
-
-    private long userTime = 20;
-
-    private String generateToken(String email, long lifeTimeMinutes) {
-        Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(lifeTimeMinutes).toInstant());
+    public String generateAccessToken(String username) {
+        Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(15).toInstant());
 
         return JWT.create()
                 .withSubject(subject)
-                .withClaim(claimName, email)
+                .withClaim(claimName, username)
                 .withIssuedAt(new Date())
                 .withIssuer(issuer)
                 .withExpiresAt(expirationDate)
                 .sign(Algorithm.HMAC256(secret));
-    }
-
-    public String generateTokenWithConfirmExpirationTime(String email) {
-        return generateToken(email, confirmTime);
-    }
-
-    public String generateTokenWithCommonUserTime(String email) {
-        return generateToken(email, userTime);
     }
 
     public String validateTokenAndRetrieveClaim(String token) throws JWTVerificationException {
@@ -50,6 +40,11 @@ public class JwtUtil {
                 JWT.require(Algorithm.HMAC256(secret)).withSubject(subject).withIssuer(issuer).build();
 
         DecodedJWT jwt = verifier.verify(token);
-        return jwt.getClaim(claimName).asString();
+
+        String claimValue = jwt.getClaim(claimName).asString();
+
+        log.warn("Verified token: {} Got value: {}", token, claimValue);
+
+        return claimValue;
     }
 }

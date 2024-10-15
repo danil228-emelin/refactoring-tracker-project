@@ -1,57 +1,83 @@
 package ru.ifmo.insys1.security;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import jakarta.annotation.Priority;
 import jakarta.inject.Inject;
-import jakarta.security.enterprise.AuthenticationException;
-import jakarta.security.enterprise.AuthenticationStatus;
-import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
-import jakarta.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
-import jakarta.security.enterprise.identitystore.IdentityStoreHandler;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.Priorities;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.Provider;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
-import static jakarta.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
+import static jakarta.ws.rs.core.Response.Status.UNAUTHORIZED;
 
-@ApplicationScoped
-public class JwtAuthenticationMechanism implements HttpAuthenticationMechanism {
+@Provider
+@Priority(Priorities.AUTHENTICATION)
+@Slf4j
+@JWT
+public class JwtAuthenticationMechanism implements ContainerRequestFilter {
 
     @Inject
-    private IdentityStoreHandler identityStoreHandler;
+    private PostgresIdentityStoreHandler identityStoreHandler;
 
     @Inject
     private JwtUtil jwtUtil;
 
     @Override
-    public AuthenticationStatus validateRequest(
-            HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse,
-            HttpMessageContext httpMessageContext) throws AuthenticationException {
+    public void filter(ContainerRequestContext crc) {
+        Optional<String> optionalAccessToken = extractAccessToken(crc);
 
-        Optional<String> accessToken = extractAccessToken(httpServletRequest);
-
-        if (accessToken.isEmpty()) {
-            return httpMessageContext.doNothing();
+        if (optionalAccessToken.isEmpty()) {
+            log.warn("No access token found in request");
+            return;
         }
 
-        String username = jwtUtil.validateTokenAndRetrieveClaim(accessToken.get());
+        String accessToken = optionalAccessToken.get();
 
-        var result = identityStoreHandler.validate(new UsernamePasswordCredential(username,  ""));
+        log.warn("Access token found in request: {}", accessToken);
 
-        if (result.getStatus() != VALID) {
-            return httpMessageContext.responseUnauthorized();
+        String username;
+
+        try {
+            username = jwtUtil.validateTokenAndRetrieveClaim(accessToken);
+        } catch (JWTVerificationException e) {
+            log.error(e.getMessage(), e);
+
+            crc.abortWith(
+                    Response.status(UNAUTHORIZED)
+                            .build()
+            );
+
+            return;
         }
 
-        return httpMessageContext.notifyContainerAboutLogin(
-                result.getCallerPrincipal(),
-                result.getCallerGroups());
+        var result = identityStoreHandler.validate(new UsernamePasswordCredential(username, ""));
+
+        if (!result.isAuthenticated()) {
+            log.error("Invalid access token: {}", accessToken);
+
+            crc.abortWith(
+                    Response.status(UNAUTHORIZED)
+                            .build()
+            );
+
+            return;
+        }
+
+        log.warn(
+                "Access token validated, user - {}, roles - {}",
+                username,
+                result.getRoles()
+        );
     }
 
-    private Optional<String> extractAccessToken(HttpServletRequest httpServletRequest) {
-        String authHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+    private Optional<String> extractAccessToken(ContainerRequestContext crc) {
+        String authHeader = crc.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             return Optional.of(authHeader.split(" ")[1].trim());
@@ -59,4 +85,5 @@ public class JwtAuthenticationMechanism implements HttpAuthenticationMechanism {
 
         return Optional.empty();
     }
+
 }

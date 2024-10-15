@@ -1,8 +1,8 @@
 package ru.ifmo.insys1.service;
 
-import ru.ifmo.insys1.entity.Movie;
+import ru.ifmo.insys1.response.dto.MovieDTO;
 
 public interface MovieService {
 
-    Movie getMovie(Long id);
+    MovieDTO getMovie(Long id);
 }

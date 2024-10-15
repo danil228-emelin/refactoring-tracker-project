@@ -7,7 +7,6 @@ import jakarta.transaction.Transactional;
 import ru.ifmo.insys1.entity.Role;
 
 @ApplicationScoped
-@Transactional
 public class RoleDAO {
 
     @PersistenceContext

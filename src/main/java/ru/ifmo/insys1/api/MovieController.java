@@ -1,13 +1,11 @@
 package ru.ifmo.insys1.api;
 
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ru.ifmo.insys1.security.JWT;
 
 import static ru.ifmo.insys1.constants.APIConstants.MOVIE_URI;
-import static ru.ifmo.insys1.constants.RoleConstant.ADMIN;
-import static ru.ifmo.insys1.constants.RoleConstant.USER;
 
 @Path(MOVIE_URI)
 public interface MovieController {
@@ -16,6 +14,6 @@ public interface MovieController {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({ADMIN, USER})
+    @JWT
     Response getMovie(@PathParam("id") Long id);
 }

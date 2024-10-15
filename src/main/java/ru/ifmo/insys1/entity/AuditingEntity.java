@@ -19,12 +19,12 @@ public abstract class AuditingEntity extends BaseEntity {
             nullable = false,
             updatable = false
     )
-    protected Long createdBy;
+    private Long createdBy;
 
     @Column(
             name = "creation_date",
             nullable = false,
             updatable = false
     )
-    protected LocalDateTime creationDate;
+    private LocalDateTime creationDate;
 }

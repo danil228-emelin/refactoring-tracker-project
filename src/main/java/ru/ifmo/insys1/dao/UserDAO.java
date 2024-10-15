@@ -6,17 +6,18 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import ru.ifmo.insys1.entity.User;
 
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-@Transactional
 public class UserDAO {
 
     @PersistenceContext
     private EntityManager em;
 
     public Optional<User> findByUsername(String username) {
-        return Optional.empty();
+        return getUserByUsername(username).stream()
+                .findFirst();
     }
 
     public void create(User user) {
@@ -24,9 +25,12 @@ public class UserDAO {
     }
 
     public boolean isUsernameExist(String username) {
-        return !em.createQuery("FROM User u WHERE u.username = :username", User.class)
+        return !getUserByUsername(username).isEmpty();
+    }
+
+    private List<User> getUserByUsername(String username) {
+        return em.createQuery("FROM User u WHERE u.username = :username", User.class)
                 .setParameter("username", username)
-                .getResultList()
-                .isEmpty();
+                .getResultList();
     }
 }
