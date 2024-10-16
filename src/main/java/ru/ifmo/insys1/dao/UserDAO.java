@@ -20,7 +20,8 @@ public class UserDAO {
                 .findFirst();
     }
 
-    public void create(User user) {
+    @Transactional
+    public void save(User user) {
         em.persist(user);
     }
 

@@ -7,11 +7,9 @@ import org.modelmapper.ModelMapper;
 import ru.ifmo.insys1.dao.MovieDAO;
 import ru.ifmo.insys1.entity.Movie;
 import ru.ifmo.insys1.exception.ServiceException;
-import ru.ifmo.insys1.response.dto.MovieDTO;
-import ru.ifmo.insys1.security.SecurityManager;
+import ru.ifmo.insys1.dto.MovieDTO;
 import ru.ifmo.insys1.service.MovieService;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @ApplicationScoped

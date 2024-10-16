@@ -5,9 +5,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ru.ifmo.insys1.security.JWT;
 
-import static ru.ifmo.insys1.constants.APIConstants.MOVIE_URI;
+import static ru.ifmo.insys1.constants.APIConstants.MOVIES_URI;
 
-@Path(MOVIE_URI)
+@Path(MOVIES_URI)
 public interface MovieController {
 
     @GET

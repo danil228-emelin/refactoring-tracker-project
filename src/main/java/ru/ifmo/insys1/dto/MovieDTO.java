@@ -1,4 +1,4 @@
-package ru.ifmo.insys1.response.dto;
+package ru.ifmo.insys1.dto;
 
 import lombok.Data;
 import ru.ifmo.insys1.entity.MovieGenre;
