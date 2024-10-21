@@ -15,7 +15,7 @@ public class PersonDTO {
 
     private Color hairColor;
 
-    private LocationDTO location;
+    private Long location;
 
     private LocalDateTime birthday;
 

@@ -3,15 +3,16 @@ package ru.ifmo.insys1.controller;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
-import ru.ifmo.insys1.api.CoordinatesController;
 import ru.ifmo.insys1.dto.CoordinatesDTO;
 import ru.ifmo.insys1.response.GetAllCoordinates;
 import ru.ifmo.insys1.security.SecurityManager;
 import ru.ifmo.insys1.service.CoordinatesService;
+import ru.ifmo.insys1.api.CoordinatesController;
 
 import java.util.List;
 
-import static jakarta.ws.rs.core.Response.Status.*;
+import static jakarta.ws.rs.core.Response.Status.CREATED;
+import static jakarta.ws.rs.core.Response.Status.NO_CONTENT;
 
 @ApplicationScoped
 public class CoordinatesControllerImpl implements CoordinatesController {
@@ -46,10 +47,10 @@ public class CoordinatesControllerImpl implements CoordinatesController {
     public Response createCoordinates(CoordinatesDTO coordinates) {
         securityManager.throwIfAnonymous();
 
-        var createCoordinates = coordinatesService.createCoordinates(coordinates);
+        var createdCoordinates = coordinatesService.createCoordinates(coordinates);
 
         return Response.status(CREATED)
-                .entity(createCoordinates)
+                .entity(createdCoordinates)
                 .build();
     }
 
@@ -68,6 +69,7 @@ public class CoordinatesControllerImpl implements CoordinatesController {
 
         coordinatesService.deleteCoordinates(id);
 
-        return Response.ok().build();
+        return Response.status(NO_CONTENT)
+                .build();
     }
 }

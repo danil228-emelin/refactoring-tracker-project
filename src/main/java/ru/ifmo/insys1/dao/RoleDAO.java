@@ -19,6 +19,7 @@ public class RoleDAO {
                 .isEmpty();
     }
 
+    @Transactional
     public void saveIfAbsent(String name) {
         if (!contains(name)) {
             em.persist(new Role(name));
