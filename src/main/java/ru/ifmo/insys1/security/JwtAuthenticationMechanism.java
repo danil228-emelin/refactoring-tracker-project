@@ -34,6 +34,12 @@ public class JwtAuthenticationMechanism implements ContainerRequestFilter {
 
         if (optionalAccessToken.isEmpty()) {
             log.warn("No access token found in request");
+
+            crc.abortWith(
+                    Response.status(UNAUTHORIZED)
+                            .build()
+            );
+
             return;
         }
 
@@ -56,7 +62,9 @@ public class JwtAuthenticationMechanism implements ContainerRequestFilter {
             return;
         }
 
-        var result = identityStoreHandler.validate(new UsernamePasswordCredential(username, ""));
+        var result = identityStoreHandler.validate(
+                new UsernamePasswordCredential(username, "")
+        );
 
         if (!result.isAuthenticated()) {
             log.error("Invalid access token: {}", accessToken);

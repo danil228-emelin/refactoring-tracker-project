@@ -1,18 +1,19 @@
 package ru.ifmo.insys1.service;
 
-import ru.ifmo.insys1.dto.CoordinatesDTO;
+import ru.ifmo.insys1.request.CoordinatesRequest;
+import ru.ifmo.insys1.response.CoordinatesResponse;
 
 import java.util.List;
 
 public interface CoordinatesService {
 
-    CoordinatesDTO getCoordinates(Long id);
+    CoordinatesResponse getCoordinates(Long id);
 
-    List<CoordinatesDTO> getAllCoordinates(int page, int size);
+    List<CoordinatesResponse> getAllCoordinates(int page, int size);
 
-    CoordinatesDTO createCoordinates(CoordinatesDTO coordinates);
+    CoordinatesResponse createCoordinates(CoordinatesRequest coordinates);
 
-    void updateCoordinates(Long id, CoordinatesDTO coordinates);
+    void updateCoordinates(Long id, CoordinatesRequest coordinates);
 
     void deleteCoordinates(Long id);
 }

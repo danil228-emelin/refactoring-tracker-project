@@ -4,7 +4,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import ru.ifmo.insys1.api.PersonController;
-import ru.ifmo.insys1.dto.PersonDTO;
+import ru.ifmo.insys1.request.PersonRequest;
+import ru.ifmo.insys1.response.PersonResponse;
+import ru.ifmo.insys1.security.SecurityManager;
 import ru.ifmo.insys1.service.PersonService;
 
 import java.util.List;
@@ -19,21 +21,21 @@ public class PersonControllerImpl implements PersonController {
 
     @Override
     public Response getPerson(Long id) {
-        PersonDTO personDTO = personService.getPerson(id);
+        PersonResponse personDTO = personService.getPerson(id);
 
         return Response.ok(personDTO).build();
     }
 
     @Override
     public Response getAllPersons(int page, int size) {
-        List<PersonDTO> persons = personService.getAllPersons(page, size);
+        List<PersonResponse> persons = personService.getAllPersons(page, size);
 
         return Response.ok(persons).build();
     }
 
     @Override
-    public Response createPerson(PersonDTO person) {
-        PersonDTO createdPerson = personService.createPerson(person);
+    public Response createPerson(PersonRequest person) {
+        PersonResponse createdPerson = personService.createPerson(person);
 
         return Response.status(CREATED)
                 .entity(createdPerson)
@@ -41,11 +43,10 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
-    public Response updatePerson(Long id, PersonDTO person) {
-        personService.updatePerson(id, person);
+    public Response updatePerson(Long id, PersonRequest person) {
+        PersonResponse updated = personService.updatePerson(id, person);
 
-        return Response.ok()
-                .build();
+        return Response.ok(updated).build();
     }
 
     @Override

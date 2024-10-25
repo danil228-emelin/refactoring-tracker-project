@@ -3,7 +3,10 @@ package ru.ifmo.insys1.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "role")
@@ -11,7 +14,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-// todo: do second-level cache
 public class Role extends BaseEntity {
 
     @Column(

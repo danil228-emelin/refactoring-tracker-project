@@ -1,4 +1,4 @@
-package ru.ifmo.insys1.dto;
+package ru.ifmo.insys1.request;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CoordinatesDTO {
+public class CoordinatesRequest {
 
     @Max(value = 912)
     private float x;

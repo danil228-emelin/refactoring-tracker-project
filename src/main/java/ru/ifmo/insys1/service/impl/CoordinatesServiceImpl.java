@@ -5,9 +5,10 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import ru.ifmo.insys1.dao.CoordinatesDAO;
-import ru.ifmo.insys1.dto.CoordinatesDTO;
+import ru.ifmo.insys1.request.CoordinatesRequest;
 import ru.ifmo.insys1.entity.Coordinates;
 import ru.ifmo.insys1.exception.ServiceException;
+import ru.ifmo.insys1.response.CoordinatesResponse;
 import ru.ifmo.insys1.security.SecurityManager;
 import ru.ifmo.insys1.service.CoordinatesService;
 
@@ -29,38 +30,38 @@ public class CoordinatesServiceImpl implements CoordinatesService {
     private ModelMapper modelMapper;
 
     @Override
-    public CoordinatesDTO getCoordinates(Long id) {
+    public CoordinatesResponse getCoordinates(Long id) {
         Optional<Coordinates> optionalCoordinates = coordinatesDAO.findById(id);
 
         if (optionalCoordinates.isEmpty()) {
             throw new ServiceException(NOT_FOUND, "Movie not found");
         }
 
-        return modelMapper.map(optionalCoordinates.get(), CoordinatesDTO.class);
+        return modelMapper.map(optionalCoordinates.get(), CoordinatesResponse.class);
     }
 
     @Override
-    public List<CoordinatesDTO> getAllCoordinates(int page, int size) {
+    public List<CoordinatesResponse> getAllCoordinates(int page, int size) {
         List<Coordinates> allCoordinates = coordinatesDAO.findAll(page, size);
 
         return allCoordinates.stream()
-                .map(c -> modelMapper.map(c, CoordinatesDTO.class))
+                .map(c -> modelMapper.map(c, CoordinatesResponse.class))
                 .toList();
     }
 
     @Override
     @Transactional
-    public CoordinatesDTO createCoordinates(CoordinatesDTO coordinates) {
+    public CoordinatesResponse createCoordinates(CoordinatesRequest coordinates) {
         Coordinates converted = modelMapper.map(coordinates, Coordinates.class);
 
         coordinatesDAO.save(converted);
 
-        return modelMapper.map(converted, CoordinatesDTO.class);
+        return modelMapper.map(converted, CoordinatesResponse.class);
     }
 
     @Override
     @Transactional
-    public void updateCoordinates(Long id, CoordinatesDTO coordinatesDTO) {
+    public void updateCoordinates(Long id, CoordinatesRequest coordinatesRequest) {
         Optional<Coordinates> optionalCoordinates = coordinatesDAO.findById(id);
 
         if (optionalCoordinates.isEmpty()) {
@@ -71,7 +72,7 @@ public class CoordinatesServiceImpl implements CoordinatesService {
 
         securityManager.throwIfUserHasNotAccessToResource(coordinates.getCreatedBy());
 
-        modelMapper.map(coordinatesDTO, coordinates);
+        modelMapper.map(coordinatesRequest, coordinates);
 
         coordinatesDAO.update(coordinates);
     }
@@ -79,6 +80,16 @@ public class CoordinatesServiceImpl implements CoordinatesService {
     @Override
     @Transactional
     public void deleteCoordinates(Long id) {
+        Optional<Coordinates> optionalCoordinates = coordinatesDAO.findById(id);
+
+        if (optionalCoordinates.isEmpty()) {
+            throw new ServiceException(NOT_FOUND, "Movie not found");
+        }
+
+        Coordinates coordinates = optionalCoordinates.get();
+
+        securityManager.throwIfUserHasNotAccessToResource(coordinates.getCreatedBy());
+
         coordinatesDAO.delete(id);
     }
 }

@@ -1,18 +1,19 @@
 package ru.ifmo.insys1.service;
 
-import ru.ifmo.insys1.dto.LocationDTO;
+import ru.ifmo.insys1.request.LocationRequest;
+import ru.ifmo.insys1.response.LocationResponse;
 
 import java.util.List;
 
 public interface LocationService {
 
-    LocationDTO getLocation(Long id);
+    LocationResponse getLocation(Long id);
 
-    List<LocationDTO> getAllLocations(int page, int size);
+    List<LocationResponse> getAllLocations(int page, int size);
 
-    LocationDTO createLocation(LocationDTO coordinates);
+    LocationResponse createLocation(LocationRequest coordinates);
 
-    void updateLocation(Long id, LocationDTO coordinates);
+    void updateLocation(Long id, LocationRequest coordinates);
 
     void deleteLocation(Long id);
 }

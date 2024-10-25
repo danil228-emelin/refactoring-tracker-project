@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ru.ifmo.insys1.dto.PersonDTO;
+import ru.ifmo.insys1.request.PersonRequest;
 import ru.ifmo.insys1.security.JWT;
 
 import static ru.ifmo.insys1.constants.APIConstants.PERSONS_URI;
@@ -30,14 +30,14 @@ public interface PersonController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @JWT
-    Response createPerson(@Valid PersonDTO person);
+    Response createPerson(@Valid PersonRequest person);
 
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     @JWT
-    Response updatePerson(@PathParam("id") Long id, PersonDTO person);
+    Response updatePerson(@PathParam("id") Long id, PersonRequest person);
 
     @DELETE
     @Path("/{id}")

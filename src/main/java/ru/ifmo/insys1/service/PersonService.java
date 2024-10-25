@@ -1,18 +1,19 @@
 package ru.ifmo.insys1.service;
 
-import ru.ifmo.insys1.dto.PersonDTO;
+import ru.ifmo.insys1.request.PersonRequest;
+import ru.ifmo.insys1.response.PersonResponse;
 
 import java.util.List;
 
 public interface PersonService {
 
-    PersonDTO getPerson(Long id);
+    PersonResponse getPerson(Long id);
 
-    List<PersonDTO> getAllPersons(int page, int size);
+    List<PersonResponse> getAllPersons(int page, int size);
 
-    PersonDTO createPerson(PersonDTO person);
+    PersonResponse createPerson(PersonRequest person);
 
-    void updatePerson(Long id, PersonDTO person);
+    PersonResponse updatePerson(Long id, PersonRequest person);
 
     void deletePerson(Long id);
 }

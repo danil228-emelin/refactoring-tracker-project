@@ -46,6 +46,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         converted.setRole(userRole);
         converted.setPassword(passwordHash.hash(converted.getPassword()));
+
         userDAO.save(converted);
 
         return mapper.map(converted, RegistrationResponse.class);

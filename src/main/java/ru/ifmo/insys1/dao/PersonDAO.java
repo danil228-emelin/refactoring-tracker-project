@@ -5,7 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import ru.ifmo.insys1.entity.Movie;
+import ru.ifmo.insys1.entity.Person;
 import ru.ifmo.insys1.exception.ServiceException;
 
 import java.util.List;
@@ -14,40 +14,40 @@ import java.util.Optional;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 
 @ApplicationScoped
-public class MovieDAO {
+public class PersonDAO {
 
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<Movie> findById(Long id) {
-        return Optional.ofNullable(em.find(Movie.class, id));
+    public Optional<Person> findById(Long id) {
+        return Optional.ofNullable(em.find(Person.class, id));
     }
 
-    public List<Movie> findAll(int page, int size) {
-        return em.createQuery("FROM Movie", Movie.class)
+    public List<Person> findAll(int page, int size) {
+        return em.createQuery("FROM Person", Person.class)
                 .setFirstResult((page - 1) * size)
                 .setMaxResults(size)
                 .getResultList();
     }
 
     @Transactional
-    public void save(Movie movie) {
-        em.persist(movie);
+    public void save(Person person) {
+        em.persist(person);
     }
 
     @Transactional
-    public void update(@Valid Movie movie) {
-        em.merge(movie);
+    public void update(@Valid Person person) {
+        em.merge(person);
     }
 
     @Transactional
     public void delete(Long id) {
-        Movie movieById = em.find(Movie.class, id);
+        Person personById = em.find(Person.class, id);
 
-        if (movieById == null) {
-            throw new ServiceException(NOT_FOUND, "Movie not found");
+        if (personById == null) {
+            throw new ServiceException(NOT_FOUND, "Person not found");
         }
 
-        em.remove(movieById);
+        em.remove(personById);
     }
 }

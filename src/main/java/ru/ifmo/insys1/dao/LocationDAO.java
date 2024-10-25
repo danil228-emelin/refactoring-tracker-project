@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import ru.ifmo.insys1.entity.Location;
 import ru.ifmo.insys1.exception.ServiceException;
 
@@ -35,7 +36,7 @@ public class LocationDAO {
     }
 
     @Transactional
-    public void update(Location location) {
+    public void update(@Valid Location location) {
         em.merge(location);
     }
 

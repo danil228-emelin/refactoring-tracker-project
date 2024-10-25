@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ru.ifmo.insys1.dto.CoordinatesDTO;
+import ru.ifmo.insys1.request.CoordinatesRequest;
 import ru.ifmo.insys1.security.JWT;
 
 import static ru.ifmo.insys1.constants.APIConstants.COORDINATES_URI;
@@ -30,14 +30,14 @@ public interface CoordinatesController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @JWT
-    Response createCoordinates(@Valid CoordinatesDTO coordinates);
+    Response createCoordinates(@Valid CoordinatesRequest coordinates);
 
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     @JWT
-    Response updateCoordinates(@PathParam("id") Long id, CoordinatesDTO coordinates);
+    Response updateCoordinates(@PathParam("id") Long id, CoordinatesRequest coordinates);
 
     @DELETE
     @Path("/{id}")

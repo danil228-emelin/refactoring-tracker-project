@@ -1,15 +1,16 @@
-package ru.ifmo.insys1.dto;
+package ru.ifmo.insys1.response;
 
 import lombok.Data;
+import ru.ifmo.insys1.request.CoordinatesRequest;
 import ru.ifmo.insys1.entity.MovieGenre;
 import ru.ifmo.insys1.entity.MpaaRating;
 
 @Data
-public class MovieDTO {
+public class MovieResponse {
 
     private String name;
 
-    private CoordinatesDTO coordinates;
+    private CoordinatesRequest coordinates;
 
     private long oscarsCount;
 
@@ -19,11 +20,11 @@ public class MovieDTO {
 
     private MpaaRating mpaaRating;
 
-    private PersonDTO director;
+    private PersonResponse director;
 
-    private PersonDTO screenwriter;
+    private PersonResponse screenwriter;
 
-    private PersonDTO operator;
+    private PersonResponse operator;
 
     private int length;
 

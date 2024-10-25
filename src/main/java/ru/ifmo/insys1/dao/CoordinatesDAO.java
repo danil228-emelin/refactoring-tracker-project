@@ -4,13 +4,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import ru.ifmo.insys1.entity.Coordinates;
 import ru.ifmo.insys1.exception.ServiceException;
 
 import java.util.List;
 import java.util.Optional;
 
-import static jakarta.transaction.Transactional.TxType.REQUIRES_NEW;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 
 @ApplicationScoped
@@ -35,8 +35,8 @@ public class CoordinatesDAO {
         em.persist(converted);
     }
 
-    @Transactional(REQUIRES_NEW)
-    public void update(Coordinates coordinates) {
+    @Transactional
+    public void update(@Valid Coordinates coordinates) {
         em.merge(coordinates);
     }
 

@@ -3,11 +3,10 @@ package ru.ifmo.insys1.controller;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
-import ru.ifmo.insys1.dto.CoordinatesDTO;
-import ru.ifmo.insys1.response.GetAllCoordinates;
-import ru.ifmo.insys1.security.SecurityManager;
-import ru.ifmo.insys1.service.CoordinatesService;
 import ru.ifmo.insys1.api.CoordinatesController;
+import ru.ifmo.insys1.request.CoordinatesRequest;
+import ru.ifmo.insys1.response.CoordinatesResponse;
+import ru.ifmo.insys1.service.CoordinatesService;
 
 import java.util.List;
 
@@ -18,15 +17,10 @@ import static jakarta.ws.rs.core.Response.Status.NO_CONTENT;
 public class CoordinatesControllerImpl implements CoordinatesController {
 
     @Inject
-    private SecurityManager securityManager;
-
-    @Inject
     private CoordinatesService coordinatesService;
 
     @Override
     public Response getCoordinates(Long id) {
-        securityManager.throwIfAnonymous();
-
         var coordinates = coordinatesService.getCoordinates(id);
 
         return Response.ok(coordinates)
@@ -35,18 +29,14 @@ public class CoordinatesControllerImpl implements CoordinatesController {
 
     @Override
     public Response getAllCoordinates(int page, int size) {
-        securityManager.throwIfAnonymous();
+        List<CoordinatesResponse> allCoordinates = coordinatesService.getAllCoordinates(page, size);
 
-        List<CoordinatesDTO> allCoordinates = coordinatesService.getAllCoordinates(page, size);
-
-        return Response.ok(new GetAllCoordinates(allCoordinates))
+        return Response.ok(allCoordinates)
                 .build();
     }
 
     @Override
-    public Response createCoordinates(CoordinatesDTO coordinates) {
-        securityManager.throwIfAnonymous();
-
+    public Response createCoordinates(CoordinatesRequest coordinates) {
         var createdCoordinates = coordinatesService.createCoordinates(coordinates);
 
         return Response.status(CREATED)
@@ -55,9 +45,7 @@ public class CoordinatesControllerImpl implements CoordinatesController {
     }
 
     @Override
-    public Response updateCoordinates(Long id, CoordinatesDTO coordinates) {
-        securityManager.throwIfAnonymous();
-
+    public Response updateCoordinates(Long id, CoordinatesRequest coordinates) {
         coordinatesService.updateCoordinates(id, coordinates);
 
         return Response.ok().build();
@@ -65,8 +53,6 @@ public class CoordinatesControllerImpl implements CoordinatesController {
 
     @Override
     public Response deleteCoordinates(Long id) {
-        securityManager.throwIfAnonymous();
-
         coordinatesService.deleteCoordinates(id);
 
         return Response.status(NO_CONTENT)
