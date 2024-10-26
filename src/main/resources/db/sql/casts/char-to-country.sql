@@ -1,1 +1,0 @@
-CREATE CAST (varchar AS country) WITH INOUT AS IMPLICIT;

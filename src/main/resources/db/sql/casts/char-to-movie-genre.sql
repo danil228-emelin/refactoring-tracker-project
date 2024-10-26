@@ -1,1 +1,0 @@
-CREATE CAST (varchar AS movie_genre) WITH INOUT AS IMPLICIT;

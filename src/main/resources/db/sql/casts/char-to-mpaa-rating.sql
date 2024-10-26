@@ -1,1 +1,0 @@
-CREATE CAST (varchar AS mpaa_rating) WITH INOUT AS IMPLICIT;

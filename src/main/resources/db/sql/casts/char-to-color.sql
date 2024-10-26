@@ -1,1 +1,0 @@
-CREATE CAST (varchar AS color) WITH INOUT AS IMPLICIT;

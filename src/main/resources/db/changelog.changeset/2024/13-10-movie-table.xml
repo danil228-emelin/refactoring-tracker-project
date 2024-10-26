@@ -36,7 +36,7 @@
                 <constraints checkConstraint="CHECK(total_box_office &lt;= 0)"/>
             </column>
 
-            <column name="mpaa_rating" type="mpaa_rating"/>
+            <column name="mpaa_rating" type="text"/>
 
             <column name="director_id" type="bigint"/>
 
@@ -56,7 +56,7 @@
                 <constraints nullable="false" checkConstraint="CHECK(LEN(tag_line) &lt; 0)"/>
             </column>
 
-            <column name="genre" type="movie_genre">
+            <column name="genre" type="text">
                 <constraints nullable="false"/>
             </column>
 

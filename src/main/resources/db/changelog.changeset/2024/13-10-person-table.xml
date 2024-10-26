@@ -20,15 +20,15 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="eye_color" type="color">
+            <column name="eye_color" type="text">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="hair_color" type="color">
+            <column name="hair_color" type="text">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="nationality" type="country">
+            <column name="nationality" type="text">
                 <constraints nullable="false"/>
             </column>
 

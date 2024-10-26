@@ -9,10 +9,6 @@
 
     <include file="db/changelog.changeset/2024/12-10-coordinates-table.xml"/>
     <include file="db/changelog.changeset/2024/12-10-location-table.xml"/>
-    <include file="db/changelog.changeset/2024/13-10-color-type.xml"/>
-    <include file="db/changelog.changeset/2024/13-10-country-type.xml"/>
-    <include file="db/changelog.changeset/2024/13-10-movie-genre-type.xml"/>
-    <include file="db/changelog.changeset/2024/13-10-mpaa-rating-type.xml"/>
     <include file="db/changelog.changeset/2024/13-10-person-table.xml"/>
     <include file="db/changelog.changeset/2024/13-10-movie-table.xml"/>
     <include file="db/changelog.changeset/2024/13-10-role-table.xml"/>

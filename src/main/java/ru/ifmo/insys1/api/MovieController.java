@@ -62,7 +62,7 @@ public interface MovieController {
     @Path("/count-by-genre")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-//    @JWT
+    @JWT
     Response getCountMoviesWithGenre(@QueryParam("genre") MovieGenre movieGenre);
 
     @PATCH
