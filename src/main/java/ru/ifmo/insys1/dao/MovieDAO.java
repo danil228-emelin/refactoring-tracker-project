@@ -3,6 +3,7 @@ package ru.ifmo.insys1.dao;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import ru.ifmo.insys1.entity.Movie;
@@ -60,7 +61,7 @@ public class MovieDAO {
                             WHERE m.id = (
                                  SELECT mov.id\s
                                  FROM movie AS mov\s
-                                 WHERE mov.tagline = :tagline\s
+                                 WHERE mov.tag_line = :tagline\s
                                  LIMIT 1
                              )
                         \s""")
@@ -75,8 +76,8 @@ public class MovieDAO {
     }
 
     public Long getCountMoviesWithGenre(MovieGenre movieGenre) {
-        return em.createQuery("SELECT COUNT(m) FROM Movie AS m WHERE m.genre = :genre", Long.class)
-                .setParameter("genre", movieGenre)
+        return em.createQuery("SELECT COUNT(m) FROM Movie AS m WHERE m.genre = :movieGenre", Long.class)
+                .setParameter("movieGenre", movieGenre)
                 .getSingleResult();
     }
 

@@ -6,10 +6,8 @@ import jakarta.ws.rs.core.Response;
 import ru.ifmo.insys1.api.MovieController;
 import ru.ifmo.insys1.entity.MovieGenre;
 import ru.ifmo.insys1.request.MovieRequest;
-import ru.ifmo.insys1.response.PersonResponse;
+import ru.ifmo.insys1.response.CountResponse;
 import ru.ifmo.insys1.service.MovieService;
-
-import java.util.List;
 
 @ApplicationScoped
 public class MovieControllerImpl implements MovieController {
@@ -68,7 +66,7 @@ public class MovieControllerImpl implements MovieController {
     public Response getCountMoviesWithTagline(String tagline) {
         Long count = movieService.getCountMoviesWithTagline(tagline);
 
-        return Response.ok(count)
+        return Response.ok(new CountResponse(count))
                 .build();
     }
 
@@ -76,17 +74,10 @@ public class MovieControllerImpl implements MovieController {
     public Response getCountMoviesWithGenre(MovieGenre movieGenre) {
         Long count = movieService.getCountMoviesWithGenre(movieGenre);
 
-        return Response.ok(count)
+        return Response.ok(new CountResponse(count))
                 .build();
     }
 
-    @Override
-    public Response getOperatorsWithoutOscar() {
-        List<PersonResponse> operators = movieService.getOperatorsWithoutOscar();
-
-        return Response.ok(operators)
-                .build();
-    }
 
     @Override
     public Response incrementOscarsCountForAllMoviesWithRCategory() {

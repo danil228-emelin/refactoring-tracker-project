@@ -36,41 +36,37 @@ public interface MovieController {
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}")
     @JWT
-    Response updateMovie(@PathParam("id") Long id, MovieRequest movie);
+    Response updateMovie(@QueryParam("id") Long id, MovieRequest movie);
 
     @DELETE
-    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @JWT
-    Response deleteMovie(@PathParam("id") Long id);
+    Response deleteMovie(@QueryParam("id") Long id);
 
     @DELETE
+    @Path("/by-tagline")
     @Consumes(MediaType.APPLICATION_JSON)
     @JWT
     Response deleteMovieByTagline(@QueryParam("tagline") String tagline);
 
     @GET
+    @Path("/count-by-tagline")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @JWT
     Response getCountMoviesWithTagline(@QueryParam("tagline") String tagline);
 
     @GET
+    @Path("/count-by-genre")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @JWT
+//    @JWT
     Response getCountMoviesWithGenre(@QueryParam("genre") MovieGenre movieGenre);
 
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @JWT
-    Response getOperatorsWithoutOscar();
-
     @PATCH
+    @Path("/add-oscar-to-R")
     @Produces(MediaType.APPLICATION_JSON)
     @JWT
     Response incrementOscarsCountForAllMoviesWithRCategory();

@@ -6,7 +6,7 @@ import jakarta.ws.rs.core.Response;
 import ru.ifmo.insys1.api.PersonController;
 import ru.ifmo.insys1.request.PersonRequest;
 import ru.ifmo.insys1.response.PersonResponse;
-import ru.ifmo.insys1.security.SecurityManager;
+import ru.ifmo.insys1.service.MovieService;
 import ru.ifmo.insys1.service.PersonService;
 
 import java.util.List;
@@ -18,6 +18,9 @@ public class PersonControllerImpl implements PersonController {
 
     @Inject
     private PersonService personService;
+
+    @Inject
+    private MovieService movieService;
 
     @Override
     public Response getPerson(Long id) {
@@ -54,6 +57,14 @@ public class PersonControllerImpl implements PersonController {
         personService.deletePerson(id);
 
         return Response.noContent()
+                .build();
+    }
+
+    @Override
+    public Response getOperatorsWithoutOscar() {
+        List<PersonResponse> operatorsWithoutOscar = movieService.getOperatorsWithoutOscar();
+
+        return Response.ok(operatorsWithoutOscar)
                 .build();
     }
 }

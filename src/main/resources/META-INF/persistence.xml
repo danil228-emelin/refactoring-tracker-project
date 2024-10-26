@@ -12,6 +12,8 @@
         <class>ru.ifmo.insys1.entity.Movie</class>
         <class>ru.ifmo.insys1.entity.Person</class>
         <class>ru.ifmo.insys1.entity.User</class>
+        <class>ru.ifmo.insys1.entity.Role</class>
+        <class>ru.ifmo.insys1.entity.Application</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
