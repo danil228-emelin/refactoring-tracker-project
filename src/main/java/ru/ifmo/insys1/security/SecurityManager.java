@@ -60,7 +60,7 @@ public class SecurityManager {
         }
     }
 
-    private void throwForbiddenException() {
+    public void throwForbiddenException() {
         throw new ServiceException(
                 FORBIDDEN,
                 "You do not have permission to access this resource"

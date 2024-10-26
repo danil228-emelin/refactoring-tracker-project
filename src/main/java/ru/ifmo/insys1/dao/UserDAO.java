@@ -20,9 +20,22 @@ public class UserDAO {
                 .findFirst();
     }
 
+    public Optional<User> findById(Long id) {
+        return em.createQuery("FROM User u WHERE u.id = :id", User.class)
+                .setParameter("id", id)
+                .getResultList()
+                .stream()
+                .findFirst();
+    }
+
     @Transactional
     public void save(User user) {
         em.persist(user);
+    }
+
+    @Transactional
+    public void update(User user) {
+        em.merge(user);
     }
 
     public boolean isUsernameExist(String username) {

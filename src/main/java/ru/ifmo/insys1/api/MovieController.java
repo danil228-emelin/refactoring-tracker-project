@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ru.ifmo.insys1.entity.MovieGenre;
 import ru.ifmo.insys1.request.MovieRequest;
 import ru.ifmo.insys1.security.JWT;
 
@@ -45,4 +46,32 @@ public interface MovieController {
     @Produces(MediaType.APPLICATION_JSON)
     @JWT
     Response deleteMovie(@PathParam("id") Long id);
+
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JWT
+    Response deleteMovieByTagline(@QueryParam("tagline") String tagline);
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @JWT
+    Response getCountMoviesWithTagline(@QueryParam("tagline") String tagline);
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @JWT
+    Response getCountMoviesWithGenre(@QueryParam("genre") MovieGenre movieGenre);
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @JWT
+    Response getOperatorsWithoutOscar();
+
+    @PATCH
+    @Produces(MediaType.APPLICATION_JSON)
+    @JWT
+    Response incrementOscarsCountForAllMoviesWithRCategory();
 }

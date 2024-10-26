@@ -6,6 +6,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import ru.ifmo.insys1.entity.Movie;
+import ru.ifmo.insys1.entity.MovieGenre;
+import ru.ifmo.insys1.entity.Person;
 import ru.ifmo.insys1.exception.ServiceException;
 
 import java.util.List;
@@ -49,5 +51,42 @@ public class MovieDAO {
         }
 
         em.remove(movieById);
+    }
+
+    @Transactional
+    public void deleteMovieByTagline(String tagline) {
+        em.createNativeQuery("""
+                            DELETE FROM movie AS m\s
+                            WHERE m.id = (
+                                 SELECT mov.id\s
+                                 FROM movie AS mov\s
+                                 WHERE mov.tagline = :tagline\s
+                                 LIMIT 1
+                             )
+                        \s""")
+                .setParameter("tagline", tagline)
+                .executeUpdate();
+    }
+
+    public Long getCountMoviesWithTagline(String tagline) {
+        return em.createQuery("SELECT COUNT(m) FROM Movie AS m WHERE m.tagline = :tagline", Long.class)
+                .setParameter("tagline", tagline)
+                .getSingleResult();
+    }
+
+    public Long getCountMoviesWithGenre(MovieGenre movieGenre) {
+        return em.createQuery("SELECT COUNT(m) FROM Movie AS m WHERE m.genre = :genre", Long.class)
+                .setParameter("genre", movieGenre)
+                .getSingleResult();
+    }
+
+    public List<Person> getOperatorsWithoutOscar() {
+        return em.createQuery("SELECT m.operator FROM Movie AS m WHERE m.oscarsCount = 0", Person.class)
+                .getResultList();
+    }
+
+    public void incrementOscarsCountForAllMoviesWithRCategory() {
+        em.createQuery("UPDATE Movie SET oscarsCount = oscarsCount + 1 WHERE mpaaRating = 'R'")
+                .executeUpdate();
     }
 }

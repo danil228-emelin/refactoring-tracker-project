@@ -13,4 +13,6 @@ public class APIConstants {
     public static final String LOCATIONS_URI = "/locations";
 
     public static final String PERSONS_URI = "/persons";
+
+    public static final String ADMIN_URI = "/admin";
 }

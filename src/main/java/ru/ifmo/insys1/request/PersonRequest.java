@@ -3,12 +3,14 @@ package ru.ifmo.insys1.request;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import ru.ifmo.insys1.entity.Color;
 import ru.ifmo.insys1.entity.Country;
 
 import java.time.LocalDateTime;
 
 @Data
+@RequiredArgsConstructor
 public class PersonRequest {
 
     @NotEmpty

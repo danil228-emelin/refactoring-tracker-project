@@ -6,10 +6,12 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import ru.ifmo.insys1.dao.MovieDAO;
 import ru.ifmo.insys1.entity.Movie;
+import ru.ifmo.insys1.entity.MovieGenre;
 import ru.ifmo.insys1.entity.Person;
 import ru.ifmo.insys1.exception.ServiceException;
 import ru.ifmo.insys1.request.MovieRequest;
 import ru.ifmo.insys1.response.MovieResponse;
+import ru.ifmo.insys1.response.PersonResponse;
 import ru.ifmo.insys1.service.MovieService;
 import ru.ifmo.insys1.service.PersonService;
 
@@ -84,6 +86,36 @@ public class MovieServiceImpl implements MovieService {
     @Transactional
     public void deleteMovie(Long id) {
         movieDAO.delete(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteMovieByTagline(String tagline) {
+        movieDAO.deleteMovieByTagline(tagline);
+    }
+
+    @Override
+    public Long getCountMoviesWithTagline(String tagline) {
+        return movieDAO.getCountMoviesWithTagline(tagline);
+    }
+
+    @Override
+    public Long getCountMoviesWithGenre(MovieGenre movieGenre) {
+        return movieDAO.getCountMoviesWithGenre(movieGenre);
+    }
+
+    @Override
+    public List<PersonResponse> getOperatorsWithoutOscar() {
+        return movieDAO.getOperatorsWithoutOscar()
+                .stream()
+                .map(operator -> modelMapper.map(operator, PersonResponse.class))
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public void incrementOscarsCountForAllMoviesWithRCategory() {
+        movieDAO.incrementOscarsCountForAllMoviesWithRCategory();
     }
 
     private void setMovieDependencies(MovieRequest movieDTO, Movie movie) {
