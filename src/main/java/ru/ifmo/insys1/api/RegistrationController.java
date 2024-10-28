@@ -1,6 +1,5 @@
 package ru.ifmo.insys1.api;
 
-import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -13,11 +12,10 @@ import ru.ifmo.insys1.request.RegistrationRequest;
 import static ru.ifmo.insys1.constants.APIConstants.REGISTRATION_URI;
 
 @Path(REGISTRATION_URI)
+@Produces(MediaType.APPLICATION_JSON)
 public interface RegistrationController {
 
     @POST
-    @PermitAll
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     Response register(@Valid RegistrationRequest registrationRequest);
 }

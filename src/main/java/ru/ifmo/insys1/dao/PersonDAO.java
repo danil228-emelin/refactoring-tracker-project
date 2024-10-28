@@ -30,17 +30,14 @@ public class PersonDAO {
                 .getResultList();
     }
 
-    @Transactional
     public void save(Person person) {
         em.persist(person);
     }
 
-    @Transactional
     public void update(@Valid Person person) {
         em.merge(person);
     }
 
-    @Transactional
     public void delete(Long id) {
         Person personById = em.find(Person.class, id);
 

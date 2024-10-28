@@ -2,6 +2,7 @@ package ru.ifmo.insys1.service.impl;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.TransactionScoped;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import ru.ifmo.insys1.dao.ApplicationDAO;
@@ -12,6 +13,7 @@ import ru.ifmo.insys1.entity.Role;
 import ru.ifmo.insys1.entity.User;
 import ru.ifmo.insys1.exception.ServiceException;
 import ru.ifmo.insys1.response.ApplicationDTO;
+import ru.ifmo.insys1.security.SecurityManager;
 import ru.ifmo.insys1.service.AdminService;
 
 import java.util.List;
@@ -33,12 +35,23 @@ public class AdminServiceImpl implements AdminService {
     private RoleDAO roleDAO;
 
     @Inject
+    private SecurityManager securityManager;
+
+    @Inject
     private ModelMapper modelMapper;
 
     @Override
     @Transactional
     public void submitApplication() {
-        applicationDAO.save(new Application());
+        if (!roleDAO.findAll().isEmpty()) {
+            applicationDAO.save(new Application());
+
+            return;
+        }
+
+        Long callerPrincipal = securityManager.getCallerPrincipal();
+
+        setAdminRole(callerPrincipal);
     }
 
     @Override
@@ -53,24 +66,11 @@ public class AdminServiceImpl implements AdminService {
             );
         }
 
-        Role adminRole = roleDAO.getRoleByName(ADMIN);
+        Long applicationOwner = application.get()
+                .getCreatedBy();
 
-        Optional<User> optionalCaller = userDAO.findById(
-                application.get()
-                        .getCreatedBy()
-        );
+        setAdminRole(applicationOwner);
 
-        if (optionalCaller.isEmpty()) {
-            throw new ServiceException(
-                    NOT_FOUND,
-                    "User with id " + applicationDTO.getId() + " not found"
-            );
-        }
-
-        User caller = optionalCaller.get();
-        caller.setRole(adminRole);
-
-        userDAO.update(caller);
         applicationDAO.delete(application.get());
     }
 
@@ -80,5 +80,21 @@ public class AdminServiceImpl implements AdminService {
                 .stream()
                 .map(application -> modelMapper.map(application, ApplicationDTO.class))
                 .toList();
+    }
+
+    @Transactional
+    private void setAdminRole(Long userId) {
+        Optional<User> optionalCaller = userDAO.findById(userId);
+
+        if (optionalCaller.isEmpty()) {
+            throw new ServiceException(
+                    NOT_FOUND,
+                    "User with id " + userId + " not found"
+            );
+        }
+
+        Role adminRole = roleDAO.getRoleByName(ADMIN);
+
+        optionalCaller.get().setRole(adminRole);
     }
 }

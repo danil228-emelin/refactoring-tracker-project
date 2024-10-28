@@ -3,7 +3,6 @@ package ru.ifmo.insys1.dao;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -41,7 +40,7 @@ public class MovieDAO {
                 !filterColumn.isEmpty();
 
         if (isFilterValid) {
-            cq.where(cb.like(movie.get("title"), "%" + filter + "%"));
+            cq.where(cb.like(movie.get(filterColumn), "%" + filter + "%"));
         }
 
         if (sorted != null && !sorted.isEmpty()) {
@@ -55,17 +54,14 @@ public class MovieDAO {
         return query.getResultList();
     }
 
-    @Transactional
     public void save(Movie movie) {
         em.persist(movie);
     }
 
-    @Transactional
     public void update(@Valid Movie movie) {
         em.merge(movie);
     }
 
-    @Transactional
     public void delete(Long id) {
         Movie movieById = em.find(Movie.class, id);
 
@@ -76,7 +72,6 @@ public class MovieDAO {
         em.remove(movieById);
     }
 
-    @Transactional
     public void deleteMovieByTagline(String tagline) {
         em.createNativeQuery("""
                             DELETE FROM movie AS m\s

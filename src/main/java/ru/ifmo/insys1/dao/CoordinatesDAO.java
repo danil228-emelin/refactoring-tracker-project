@@ -30,17 +30,14 @@ public class CoordinatesDAO {
                 .getResultList();
     }
 
-    @Transactional
     public void save(Coordinates converted) {
         em.persist(converted);
     }
 
-    @Transactional
     public void update(@Valid Coordinates coordinates) {
         em.merge(coordinates);
     }
 
-    @Transactional
     public void delete(Long id) {
         Coordinates coordinatesById = em.find(Coordinates.class, id);
 

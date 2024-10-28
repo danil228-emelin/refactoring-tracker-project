@@ -10,39 +10,32 @@ import ru.ifmo.insys1.security.JWT;
 import static ru.ifmo.insys1.constants.APIConstants.LOCATIONS_URI;
 
 @Path(LOCATIONS_URI)
+@Produces(MediaType.APPLICATION_JSON)
 public interface LocationController {
 
     @GET
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @JWT
     Response getLocation(@PathParam("id") Long id);
 
     @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @JWT
     Response getAllLocations(@QueryParam("page") @DefaultValue("1") int page,
                                @QueryParam("size") @DefaultValue("10") int size);
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @JWT
     Response createLocation(@Valid LocationRequest location);
 
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     @JWT
     Response updateLocation(@PathParam("id") Long id, LocationRequest location);
 
     @DELETE
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @JWT
     Response deleteLocation(@PathParam("id") Long id);
 }

@@ -30,17 +30,14 @@ public class LocationDAO {
                 .getResultList();
     }
 
-    @Transactional
     public void save(Location location) {
         em.persist(location);
     }
 
-    @Transactional
     public void update(@Valid Location location) {
         em.merge(location);
     }
 
-    @Transactional
     public void delete(Long id) {
         Location locationById = em.find(Location.class, id);
 

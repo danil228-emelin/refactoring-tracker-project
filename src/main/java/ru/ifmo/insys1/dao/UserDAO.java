@@ -28,14 +28,8 @@ public class UserDAO {
                 .findFirst();
     }
 
-    @Transactional
     public void save(User user) {
         em.persist(user);
-    }
-
-    @Transactional
-    public void update(User user) {
-        em.merge(user);
     }
 
     public boolean isUsernameExist(String username) {

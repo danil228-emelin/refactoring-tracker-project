@@ -6,6 +6,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import ru.ifmo.insys1.entity.Role;
 
+import java.util.List;
+
 @ApplicationScoped
 public class RoleDAO {
 
@@ -19,7 +21,11 @@ public class RoleDAO {
                 .isEmpty();
     }
 
-    @Transactional
+    public List<Role> findAll() {
+        return em.createQuery("FROM Role", Role.class)
+                .getResultList();
+    }
+
     public void saveIfAbsent(String name) {
         if (!contains(name)) {
             em.persist(new Role(name));
