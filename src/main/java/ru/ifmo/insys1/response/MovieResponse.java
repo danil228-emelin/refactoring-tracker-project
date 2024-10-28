@@ -10,7 +10,7 @@ public class MovieResponse {
 
     private String name;
 
-    private CoordinatesRequest coordinates;
+    private CoordinatesResponse coordinates;
 
     private long oscarsCount;
 

@@ -11,7 +11,7 @@ public interface MovieService {
 
     MovieResponse getMovie(Long id);
 
-    List<MovieResponse> getAllMovies(int page, int size);
+    List<MovieResponse> getAllMovies(int page, int size, String filter, String filterColumn, String sorted);
 
     MovieResponse createMovie(MovieRequest movie);
 

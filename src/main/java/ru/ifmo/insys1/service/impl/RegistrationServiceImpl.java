@@ -14,7 +14,7 @@ import ru.ifmo.insys1.response.RegistrationResponse;
 import ru.ifmo.insys1.security.PasswordHash;
 import ru.ifmo.insys1.service.RegistrationService;
 
-import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
+import static jakarta.ws.rs.core.Response.Status.CONFLICT;
 import static ru.ifmo.insys1.constants.RoleConstant.USER;
 
 @ApplicationScoped
@@ -38,7 +38,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         String username = request.getUsername();
 
         if (userDAO.isUsernameExist(username)) {
-            throw new ServiceException(BAD_REQUEST, "Username is already in use");
+            throw new ServiceException(CONFLICT, "Username is already in use");
         }
 
         User converted = mapper.map(request, User.class);

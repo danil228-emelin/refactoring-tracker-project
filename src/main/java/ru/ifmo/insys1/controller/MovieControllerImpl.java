@@ -2,6 +2,7 @@ package ru.ifmo.insys1.controller;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import ru.ifmo.insys1.api.MovieController;
 import ru.ifmo.insys1.entity.MovieGenre;
@@ -22,8 +23,8 @@ public class MovieControllerImpl implements MovieController {
     }
 
     @Override
-    public Response getAllMovies(int page, int size) {
-        var movies = movieService.getAllMovies(page, size);
+    public Response getAllMovies(int page, int size, String filter, String filterColumn, String sorted) {
+        var movies = movieService.getAllMovies(page, size, filter, filterColumn, sorted);
 
         return Response.ok(movies)
                 .build();

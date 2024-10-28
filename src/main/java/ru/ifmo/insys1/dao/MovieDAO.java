@@ -4,6 +4,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import ru.ifmo.insys1.entity.Movie;
@@ -26,11 +30,29 @@ public class MovieDAO {
         return Optional.ofNullable(em.find(Movie.class, id));
     }
 
-    public List<Movie> findAll(int page, int size) {
-        return em.createQuery("FROM Movie", Movie.class)
-                .setFirstResult((page - 1) * size)
-                .setMaxResults(size)
-                .getResultList();
+    public List<Movie> findAll(int page, int size, String filter, String filterColumn, String sorted) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
+        Root<Movie> movie = cq.from(Movie.class);
+
+        boolean isFilterValid = filter != null &&
+                filterColumn != null &&
+                !filter.isEmpty() &&
+                !filterColumn.isEmpty();
+
+        if (isFilterValid) {
+            cq.where(cb.like(movie.get("title"), "%" + filter + "%"));
+        }
+
+        if (sorted != null && !sorted.isEmpty()) {
+            cq.orderBy(cb.asc(movie.get(sorted)));
+        }
+
+        TypedQuery<Movie> query = em.createQuery(cq);
+        query.setFirstResult((page - 1) * size);
+        query.setMaxResults(size);
+
+        return query.getResultList();
     }
 
     @Transactional

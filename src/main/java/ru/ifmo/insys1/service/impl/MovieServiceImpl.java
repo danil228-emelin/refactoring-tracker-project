@@ -44,8 +44,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieResponse> getAllMovies(int page, int size) {
-        List<Movie> allMovies = movieDAO.findAll(page, size);
+    public List<MovieResponse> getAllMovies(int page, int size, String filter, String filterColumn, String sorted) {
+        List<Movie> allMovies = movieDAO.findAll(page, size, filter, filterColumn, sorted);
 
         return allMovies.stream()
                 .map(m -> modelMapper.map(m, MovieResponse.class))
