@@ -28,6 +28,11 @@ public class UserDAO {
                 .findFirst();
     }
 
+    public List<User> findAdmins() {
+        return em.createQuery("FROM User u WHERE u.role.roleName = 'ADMIN'", User.class)
+                .getResultList();
+    }
+
     public void save(User user) {
         em.persist(user);
     }

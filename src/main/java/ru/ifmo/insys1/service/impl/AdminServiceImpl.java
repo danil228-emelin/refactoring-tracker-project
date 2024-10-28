@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void submitApplication() {
-        if (!roleDAO.findAll().isEmpty()) {
+        if (!userDAO.findAdmins().isEmpty()) {
             applicationDAO.save(new Application());
 
             return;

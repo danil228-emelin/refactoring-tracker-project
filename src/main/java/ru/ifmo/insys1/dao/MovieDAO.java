@@ -7,7 +7,6 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import ru.ifmo.insys1.entity.Movie;
 import ru.ifmo.insys1.entity.MovieGenre;
