@@ -1,13 +1,10 @@
 package ru.ifmo.insys1.response;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Map;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class HttpErrorResponse {
 

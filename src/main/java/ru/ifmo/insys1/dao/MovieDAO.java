@@ -12,6 +12,7 @@ import ru.ifmo.insys1.entity.Movie;
 import ru.ifmo.insys1.entity.MovieGenre;
 import ru.ifmo.insys1.entity.Person;
 import ru.ifmo.insys1.exception.ServiceException;
+import ru.ifmo.insys1.response.PagedResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +29,9 @@ public class MovieDAO {
         return Optional.ofNullable(em.find(Movie.class, id));
     }
 
-    public List<Movie> findAll(int page, int size, String filter, String filterColumn, String sorted) {
+    public PagedResult findAll(int page, int size, String filter, String filterColumn, String sorted) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
+
         CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
         Root<Movie> movie = cq.from(Movie.class);
 
@@ -49,8 +51,20 @@ public class MovieDAO {
         TypedQuery<Movie> query = em.createQuery(cq);
         query.setFirstResult((page - 1) * size);
         query.setMaxResults(size);
+        List<Movie> movies = query.getResultList();
 
-        return query.getResultList();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Movie> countRoot = countQuery.from(Movie.class);
+        countQuery.select(cb.count(countRoot));
+
+        if (isFilterValid) {
+            countQuery.where(cb.like(countRoot.get(filterColumn), "%" + filter + "%"));
+        }
+
+        Long totalRecords = em.createQuery(countQuery).getSingleResult();
+        int totalPages = (int) Math.ceil((double) totalRecords / size);
+
+        return new PagedResult(movies, totalPages);
     }
 
     public void save(Movie movie) {

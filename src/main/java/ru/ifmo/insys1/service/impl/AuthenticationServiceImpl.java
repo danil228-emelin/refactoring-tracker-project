@@ -15,7 +15,7 @@ import ru.ifmo.insys1.service.AuthenticationService;
 
 import java.util.Optional;
 
-import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
+import static jakarta.ws.rs.core.Response.Status.UNAUTHORIZED;
 
 @ApplicationScoped
 @Slf4j
@@ -39,22 +39,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (optionalUser.isEmpty()) {
             log.warn("User not found: {}", username);
-            throw new ServiceException(BAD_REQUEST, "Incorrect username or password");
+            throw new ServiceException(UNAUTHORIZED, "Incorrect username or password");
         }
+
+        User user = optionalUser.get();
 
         boolean verified = passwordHash.verify(
                 request.getPassword(),
-                optionalUser.get().getPassword()
+                user.getPassword()
         );
 
         if (!verified) {
             log.warn("Authentication request with incorrect password");
-            throw new ServiceException(BAD_REQUEST, "Incorrect username or password");
+            throw new ServiceException(UNAUTHORIZED, "Incorrect username or password");
         }
 
         String accessToken = jwtUtil.generateAccessToken(username);
 
-        return new AuthenticationResponse(accessToken);
+        return new AuthenticationResponse(
+                accessToken,
+                user.getRole().getRoleName(),
+                user.getUsername()
+        );
     }
 
 }

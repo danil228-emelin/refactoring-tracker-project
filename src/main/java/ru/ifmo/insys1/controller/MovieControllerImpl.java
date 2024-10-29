@@ -2,7 +2,6 @@ package ru.ifmo.insys1.controller;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import ru.ifmo.insys1.api.MovieController;
 import ru.ifmo.insys1.entity.MovieGenre;

@@ -4,16 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class LocationResponse {
+@NoArgsConstructor
+public class PagedResult {
 
-    private Long id;
+    private List<?> results;
 
-    private long x;
-
-    private int y;
-
-    private String name;
+    private int totalPages;
 }

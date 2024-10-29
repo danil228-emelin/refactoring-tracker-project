@@ -2,7 +2,6 @@ package ru.ifmo.insys1.service.impl;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.TransactionScoped;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import ru.ifmo.insys1.dao.ApplicationDAO;

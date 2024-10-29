@@ -5,13 +5,16 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import ru.ifmo.insys1.dao.MovieDAO;
+import ru.ifmo.insys1.entity.Coordinates;
 import ru.ifmo.insys1.entity.Movie;
 import ru.ifmo.insys1.entity.MovieGenre;
 import ru.ifmo.insys1.entity.Person;
 import ru.ifmo.insys1.exception.ServiceException;
 import ru.ifmo.insys1.request.MovieRequest;
 import ru.ifmo.insys1.response.MovieResponse;
+import ru.ifmo.insys1.response.PagedResult;
 import ru.ifmo.insys1.response.PersonResponse;
+import ru.ifmo.insys1.service.CoordinatesService;
 import ru.ifmo.insys1.service.MovieService;
 import ru.ifmo.insys1.service.PersonService;
 
@@ -32,6 +35,9 @@ public class MovieServiceImpl implements MovieService {
     @Inject
     private PersonService personService;
 
+    @Inject
+    private CoordinatesService coordinatesService;
+
     @Override
     public MovieResponse getMovie(Long id) {
         Optional<Movie> optionalMovie = movieDAO.findById(id);
@@ -44,12 +50,17 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieResponse> getAllMovies(int page, int size, String filter, String filterColumn, String sorted) {
-        List<Movie> allMovies = movieDAO.findAll(page, size, filter, filterColumn, sorted);
+    public PagedResult getAllMovies(int page, int size, String filter, String filterColumn, String sorted) {
+        PagedResult result = movieDAO.findAll(page, size, filter, filterColumn, sorted);
 
-        return allMovies.stream()
-                .map(m -> modelMapper.map(m, MovieResponse.class))
+        List<?> movieResponses = result.getResults()
+                .stream()
+                .map(movie -> modelMapper.map(movie, MovieResponse.class))
                 .toList();
+
+        result.setResults(movieResponses);
+
+        return result;
     }
 
     @Override
@@ -119,6 +130,15 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private void setMovieDependencies(MovieRequest movieDTO, Movie movie) {
+        if (movieDTO.getCoordinates() != null) {
+            Coordinates coordinates = modelMapper.map(
+                    coordinatesService.getCoordinates(movieDTO.getCoordinates()),
+                    Coordinates.class
+            );
+
+            movie.setCoordinates(coordinates);
+        }
+
         if (movieDTO.getDirector() != null) {
             Person director = modelMapper.map(
                     personService.getPerson(movieDTO.getDirector()),

@@ -3,9 +3,11 @@ package ru.ifmo.insys1.security;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+@Slf4j
 public class CorsFilter implements Filter {
 
     @Override
@@ -14,13 +16,21 @@ public class CorsFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-        resp.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        resp.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,PATCH");
+        resp.addHeader("Access-Control-Allow-Headers", "*");
 
         if (request.getMethod().equals("OPTIONS")) {
             resp.setStatus(HttpServletResponse.SC_OK);
+            log.warn("Received OPTIONS request, return OK");
+
             return;
         }
+
+        log.warn(
+                "Received request with method: {}, URI: {}",
+                request.getMethod(),
+                request.getRequestURI()
+        );
 
         filterChain.doFilter(request, servletResponse);
     }

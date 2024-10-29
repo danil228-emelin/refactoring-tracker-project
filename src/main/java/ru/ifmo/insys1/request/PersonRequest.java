@@ -1,16 +1,21 @@
 package ru.ifmo.insys1.request;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import ru.ifmo.insys1.entity.Color;
 import ru.ifmo.insys1.entity.Country;
 
 import java.time.LocalDateTime;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonRequest {
 
     @NotEmpty
@@ -26,6 +31,7 @@ public class PersonRequest {
     private Long location;
 
     @NotNull
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime birthday;
 
     @NotNull

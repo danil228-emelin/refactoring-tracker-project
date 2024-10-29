@@ -21,6 +21,7 @@ public interface MovieController {
 
     @GET
     @JWT
+    @Consumes(MediaType.APPLICATION_JSON)
     Response getAllMovies(@QueryParam("page") @DefaultValue("1") int page,
                           @QueryParam("size") @DefaultValue("10") int size,
                           @QueryParam("filter-value") String filter,
