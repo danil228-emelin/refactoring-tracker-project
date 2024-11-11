@@ -3,7 +3,6 @@ package ru.ifmo.insys1.dao;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import ru.ifmo.insys1.entity.User;
 
 import java.util.List;
@@ -26,6 +25,12 @@ public class UserDAO {
                 .getResultList()
                 .stream()
                 .findFirst();
+    }
+
+    public void setAdminRole(Long userId) {
+        em.createNativeQuery("UPDATE users SET role_id = (SELECT id FROM role WHERE role_name = 'ADMIN') WHERE id = :id")
+                .setParameter("id", userId)
+                .executeUpdate();
     }
 
     public List<User> findAdmins() {

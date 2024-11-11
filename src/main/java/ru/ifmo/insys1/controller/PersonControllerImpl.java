@@ -3,6 +3,7 @@ package ru.ifmo.insys1.controller;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
+import lombok.extern.slf4j.Slf4j;
 import ru.ifmo.insys1.api.PersonController;
 import ru.ifmo.insys1.request.PersonRequest;
 import ru.ifmo.insys1.response.PersonResponse;
@@ -14,6 +15,7 @@ import java.util.List;
 import static jakarta.ws.rs.core.Response.Status.CREATED;
 
 @ApplicationScoped
+@Slf4j
 public class PersonControllerImpl implements PersonController {
 
     @Inject
@@ -63,6 +65,8 @@ public class PersonControllerImpl implements PersonController {
     @Override
     public Response getOperatorsWithoutOscar() {
         List<PersonResponse> operatorsWithoutOscar = movieService.getOperatorsWithoutOscar();
+
+        log.info("Operators without oscar: {}", operatorsWithoutOscar);
 
         return Response.ok(operatorsWithoutOscar)
                 .build();

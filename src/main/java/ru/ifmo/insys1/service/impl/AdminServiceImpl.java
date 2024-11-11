@@ -77,23 +77,20 @@ public class AdminServiceImpl implements AdminService {
     public List<ApplicationDTO> getAllApplications(int page, int size) {
         return applicationDAO.getAllApplications(page, size)
                 .stream()
-                .map(application -> modelMapper.map(application, ApplicationDTO.class))
+                .map(this::convertToApplicationDTO)
                 .toList();
+    }
+
+    private ApplicationDTO convertToApplicationDTO(Application application) {
+        User user = userDAO.findById(application.getCreatedBy()).get();
+        ApplicationDTO map = modelMapper.map(application, ApplicationDTO.class);
+        map.setUsername(user.getUsername());
+
+        return map;
     }
 
     @Transactional
     private void setAdminRole(Long userId) {
-        Optional<User> optionalCaller = userDAO.findById(userId);
-
-        if (optionalCaller.isEmpty()) {
-            throw new ServiceException(
-                    NOT_FOUND,
-                    "User with id " + userId + " not found"
-            );
-        }
-
-        Role adminRole = roleDAO.getRoleByName(ADMIN);
-
-        optionalCaller.get().setRole(adminRole);
+        userDAO.setAdminRole(userId);
     }
 }

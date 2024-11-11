@@ -12,4 +12,6 @@ public class ApplicationDTO {
     private Long id;
 
     private Long createdBy;
+
+    private String username;
 }
