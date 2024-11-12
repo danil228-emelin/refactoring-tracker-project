@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "person")
@@ -34,6 +35,15 @@ public class Person extends AuditingEntity {
             nullable = false
     )
     private Location location;
+
+    @OneToMany(mappedBy = "director")
+    private List<Movie> directorMovies;
+
+    @OneToMany(mappedBy = "operator")
+    private List<Movie> operatorMovies;
+
+    @OneToMany(mappedBy = "screenwriter")
+    private List<Movie> screenwriterMovies;
 
     @NotNull
     private LocalDateTime birthday;

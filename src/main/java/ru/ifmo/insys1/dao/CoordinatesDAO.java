@@ -3,7 +3,6 @@ package ru.ifmo.insys1.dao;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import ru.ifmo.insys1.entity.Coordinates;
 import ru.ifmo.insys1.exception.ServiceException;
@@ -11,6 +10,7 @@ import ru.ifmo.insys1.exception.ServiceException;
 import java.util.List;
 import java.util.Optional;
 
+import static jakarta.ws.rs.core.Response.Status.CONFLICT;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 
 @ApplicationScoped
@@ -45,6 +45,19 @@ public class CoordinatesDAO {
             throw new ServiceException(NOT_FOUND, "Coordinates not found");
         }
 
+        Long countBoundEntities = getCountBoundEntities(coordinatesById);
+
+        if (countBoundEntities > 0) {
+            throw new ServiceException(CONFLICT, "Coordinates has bound entities");
+        }
+
         em.remove(coordinatesById);
+    }
+
+    private Long getCountBoundEntities(Coordinates coordinates) {
+        String query = "SELECT COUNT(id) FROM Movie WHERE coordinates = :coordinates";
+        return em.createQuery(query, Long.class)
+                .setParameter("coordinates", coordinates)
+                .getSingleResult();
     }
 }

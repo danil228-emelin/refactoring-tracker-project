@@ -3,7 +3,6 @@ package ru.ifmo.insys1.dao;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import ru.ifmo.insys1.entity.Person;
 import ru.ifmo.insys1.exception.ServiceException;
@@ -11,6 +10,7 @@ import ru.ifmo.insys1.exception.ServiceException;
 import java.util.List;
 import java.util.Optional;
 
+import static jakarta.ws.rs.core.Response.Status.CONFLICT;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 
 @ApplicationScoped
@@ -45,6 +45,24 @@ public class PersonDAO {
             throw new ServiceException(NOT_FOUND, "Person not found");
         }
 
+        Long countBoundEntities = getCountBoundEntities(personById);
+
+        if (countBoundEntities > 0) {
+            throw new ServiceException(CONFLICT, "Person has bounded entities");
+        }
+
         em.remove(personById);
+    }
+
+    private Long getCountBoundEntities(Person personById) {
+        String countBoundEntitiesQuery = "SELECT COUNT(id) " +
+                "FROM Movie " +
+                "WHERE director = :person OR " +
+                "screenwriter = :person OR " +
+                "operator = :person";
+
+        return em.createQuery(countBoundEntitiesQuery, Long.class)
+                .setParameter("person", personById)
+                .getSingleResult();
     }
 }

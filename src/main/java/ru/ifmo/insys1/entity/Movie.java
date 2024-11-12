@@ -22,7 +22,6 @@ public class Movie extends AuditingEntity {
             nullable = false,
             referencedColumnName = "id"
     )
-    // todo: cascade удаление запрещено, нужно об этом оповестить! Exception on DELETE
     private Coordinates coordinates;
 
     @Min(value = 0)

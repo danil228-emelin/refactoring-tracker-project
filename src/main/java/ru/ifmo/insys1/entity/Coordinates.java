@@ -14,12 +14,11 @@ import lombok.Setter;
 @Setter
 public class Coordinates extends AuditingEntity {
 
-    // todo: message
     @Max(value = 912)
     private float x;
 
-    // todo: message
     @NotNull
     @Min(value = -959)
     private Integer y;
+
 }

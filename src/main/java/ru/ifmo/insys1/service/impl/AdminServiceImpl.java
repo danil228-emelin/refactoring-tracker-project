@@ -8,7 +8,6 @@ import ru.ifmo.insys1.dao.ApplicationDAO;
 import ru.ifmo.insys1.dao.RoleDAO;
 import ru.ifmo.insys1.dao.UserDAO;
 import ru.ifmo.insys1.entity.Application;
-import ru.ifmo.insys1.entity.Role;
 import ru.ifmo.insys1.entity.User;
 import ru.ifmo.insys1.exception.ServiceException;
 import ru.ifmo.insys1.response.ApplicationDTO;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
-import static ru.ifmo.insys1.constants.RoleConstant.ADMIN;
 
 @ApplicationScoped
 public class AdminServiceImpl implements AdminService {
