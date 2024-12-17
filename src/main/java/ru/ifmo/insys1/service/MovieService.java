@@ -2,6 +2,7 @@ package ru.ifmo.insys1.service;
 
 import ru.ifmo.insys1.entity.MovieGenre;
 import ru.ifmo.insys1.request.MovieRequest;
+import ru.ifmo.insys1.request.upload.UploadMovie;
 import ru.ifmo.insys1.response.MovieResponse;
 import ru.ifmo.insys1.response.PagedResult;
 import ru.ifmo.insys1.response.PersonResponse;
@@ -11,6 +12,8 @@ import java.util.List;
 public interface MovieService {
 
     MovieResponse getMovie(Long id);
+
+    List<Long> uploadAll(List<UploadMovie> movies);
 
     PagedResult getAllMovies(int page, int size, String filter, String filterColumn, String sorted);
 

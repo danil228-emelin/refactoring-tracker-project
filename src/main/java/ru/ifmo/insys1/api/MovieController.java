@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import ru.ifmo.insys1.entity.MovieGenre;
+import ru.ifmo.insys1.request.FileUploadForm;
 import ru.ifmo.insys1.request.MovieRequest;
 import ru.ifmo.insys1.security.JWT;
 
@@ -62,4 +64,10 @@ public interface MovieController {
     @Path("/add-oscar-to-R")
     @JWT
     Response incrementOscarsCountForAllMoviesWithRCategory();
+
+    @POST
+    @Path("/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @JWT
+    Response upload(@MultipartForm FileUploadForm form);
 }

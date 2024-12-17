@@ -31,6 +31,8 @@
         <java-jwt.version>4.4.0</java-jwt.version>
         <commons-codec.version>1.15</commons-codec.version>
         <jackson-datatype-jsr310.version>2.18.0</jackson-datatype-jsr310.version>
+        <resteasy-jaxrs.version>2.2.1.GA</resteasy-jaxrs.version>
+        <resteasy-multipart-provider.version>2.2.0.GA</resteasy-multipart-provider.version>
     </properties>
 
     <dependencies>
@@ -132,6 +134,18 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>${resteasy-jaxrs.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+            <version>${resteasy-multipart-provider.version}</version>
         </dependency>
     </dependencies>
 

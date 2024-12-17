@@ -33,16 +33,6 @@ public class SecurityManager {
         return false;
     }
 
-    public boolean isAnonymous() {
-        return !authenticatedCaller.isAuthenticated();
-    }
-
-    public void throwIfAnonymous() {
-        if (isAnonymous()) {
-            throwForbiddenException();
-        }
-    }
-
     public Long getCallerPrincipal() {
         return authenticatedCaller.getId();
     }

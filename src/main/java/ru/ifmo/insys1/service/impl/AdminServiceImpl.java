@@ -29,9 +29,6 @@ public class AdminServiceImpl implements AdminService {
     private UserDAO userDAO;
 
     @Inject
-    private RoleDAO roleDAO;
-
-    @Inject
     private SecurityManager securityManager;
 
     @Inject
@@ -42,7 +39,6 @@ public class AdminServiceImpl implements AdminService {
     public void submitApplication() {
         if (!userDAO.findAdmins().isEmpty()) {
             applicationDAO.save(new Application());
-
             return;
         }
 
