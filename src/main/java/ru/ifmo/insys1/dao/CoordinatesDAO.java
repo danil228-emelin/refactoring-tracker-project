@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import ru.ifmo.insys1.entity.Coordinates;
 import ru.ifmo.insys1.exception.ServiceException;
 
@@ -14,6 +15,7 @@ import static jakarta.ws.rs.core.Response.Status.CONFLICT;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 
 @ApplicationScoped
+@Slf4j
 public class CoordinatesDAO {
 
     @PersistenceContext
@@ -35,6 +37,7 @@ public class CoordinatesDAO {
     }
 
     public void update(@Valid Coordinates coordinates) {
+        log.info("Updated coordinates: {}", coordinates);
         em.merge(coordinates);
     }
 

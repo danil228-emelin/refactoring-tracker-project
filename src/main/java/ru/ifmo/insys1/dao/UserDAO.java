@@ -42,10 +42,6 @@ public class UserDAO {
         em.persist(user);
     }
 
-    public boolean isUsernameExist(String username) {
-        return !getUserByUsername(username).isEmpty();
-    }
-
     private List<User> getUserByUsername(String username) {
         return em.createQuery("FROM User u WHERE u.username = :username", User.class)
                 .setParameter("username", username)

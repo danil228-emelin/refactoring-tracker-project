@@ -20,7 +20,7 @@ public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
 
         var errorResponse = new HttpErrorResponse(
                 internalServerError.getReasonPhrase(),
-                "Internal Server Error"
+                e.getMessage()
         );
 
         return Response.status(internalServerError)

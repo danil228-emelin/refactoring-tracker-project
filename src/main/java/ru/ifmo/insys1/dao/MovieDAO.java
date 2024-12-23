@@ -1,6 +1,7 @@
 package ru.ifmo.insys1.dao;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -24,6 +25,15 @@ public class MovieDAO {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Inject
+    private CoordinatesDAO coordinatesDAO;
+
+    @Inject
+    private PersonDAO personDAO;
+
+    @Inject
+    private LocationDAO locationDAO;
 
     public Optional<Movie> findById(Long id) {
         return Optional.ofNullable(em.find(Movie.class, id));
@@ -77,11 +87,9 @@ public class MovieDAO {
 
     public void delete(Long id) {
         Movie movieById = em.find(Movie.class, id);
-
         if (movieById == null) {
             throw new ServiceException(NOT_FOUND, "Movie not found");
         }
-
         em.remove(movieById);
     }
 
@@ -119,5 +127,28 @@ public class MovieDAO {
     public void incrementOscarsCountForAllMoviesWithRCategory() {
         em.createQuery("UPDATE Movie SET oscarsCount = oscarsCount + 1 WHERE mpaaRating = 'R'")
                 .executeUpdate();
+    }
+
+    public List<Long> uploadAll(List<Movie> movies) {
+        return movies.stream()
+                .map(this::persistMovie)
+                .toList();
+    }
+
+    private Long persistMovie(Movie movie) {
+        coordinatesDAO.save(movie.getCoordinates());
+        persistPerson(movie.getDirector());
+        persistPerson(movie.getOperator());
+        persistPerson(movie.getScreenwriter());
+        em.persist(movie);
+
+        return movie.getId();
+    }
+
+    private void persistPerson(Person person) {
+        if (person != null) {
+            locationDAO.save(person.getLocation());
+            personDAO.save(person);
+        }
     }
 }

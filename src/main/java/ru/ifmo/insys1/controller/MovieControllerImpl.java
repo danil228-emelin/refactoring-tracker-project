@@ -3,17 +3,26 @@ package ru.ifmo.insys1.controller;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
+import lombok.extern.slf4j.Slf4j;
 import ru.ifmo.insys1.api.MovieController;
 import ru.ifmo.insys1.entity.MovieGenre;
+import ru.ifmo.insys1.request.FileUploadForm;
 import ru.ifmo.insys1.request.MovieRequest;
 import ru.ifmo.insys1.response.CountResponse;
+import ru.ifmo.insys1.request.upload.reader.MovieRequestFileReader;
 import ru.ifmo.insys1.service.MovieService;
 
+import java.util.List;
+
 @ApplicationScoped
+@Slf4j
 public class MovieControllerImpl implements MovieController {
 
     @Inject
     private MovieService movieService;
+
+    @Inject
+    private MovieRequestFileReader movieRequestFileReader;
 
     @Override
     public Response getMovie(Long id) {
@@ -84,6 +93,15 @@ public class MovieControllerImpl implements MovieController {
         movieService.incrementOscarsCountForAllMoviesWithRCategory();
 
         return Response.ok()
+                .build();
+    }
+
+    @Override
+    public Response upload(FileUploadForm form) {
+        List<Long> ids = movieService.uploadAll(movieRequestFileReader.read(form));
+
+        return Response.status(Response.Status.CREATED)
+                .entity(ids)
                 .build();
     }
 }

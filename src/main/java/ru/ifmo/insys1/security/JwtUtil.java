@@ -24,7 +24,7 @@ public class JwtUtil {
     private String secret = "se.ifmo";
 
     public String generateAccessToken(String username) {
-        Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(15).toInstant());
+        Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(60).toInstant());
 
         return JWT.create()
                 .withSubject(subject)
