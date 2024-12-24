@@ -12,4 +12,6 @@ public class ImportRequest {
     private Boolean isSuccess;
 
     private Integer count;
+
+    private String url;
 }

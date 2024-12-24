@@ -10,4 +10,6 @@ public interface ImportService {
     void persist(ImportRequest request);
 
     List<ImportResponse> getAll();
+
+    void persistInNewTransaction(ImportRequest importRequest);
 }

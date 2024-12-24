@@ -2,11 +2,10 @@ package ru.ifmo.insys1.service.impl;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.interceptor.Interceptors;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import ru.ifmo.insys1.aspect.UploadMoviesAspect;
+import org.modelmapper.internal.Pair;
 import ru.ifmo.insys1.dao.MovieDAO;
 import ru.ifmo.insys1.entity.Coordinates;
 import ru.ifmo.insys1.entity.Movie;
@@ -63,13 +62,16 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    @Interceptors(UploadMoviesAspect.class)
-    public List<Long> uploadAll(List<UploadMovie> movies) {
-        log.info("Received file with size: {}", movies.size());
-        List<Movie> mappedEntities = movies.stream()
+    public List<Long> uploadAll(List<UploadMovie> movies, Pair<String, String> fileUrl) {
+        log.info("Received movies with size: {}", movies.size());
+        List<Movie> mappedEntities = toEntities(movies);
+        return persistMovies(mappedEntities, fileUrl.getRight());
+    }
+
+    private List<Movie> toEntities(List<UploadMovie> parsedMovies) {
+        return parsedMovies.stream()
                 .map(upload -> uploadToEntity(upload, new Movie()))
                 .toList();
-        return persistMovies(mappedEntities);
     }
 
     @Override
@@ -216,9 +218,9 @@ public class MovieServiceImpl implements MovieService {
         }
     }
 
-    private List<Long> persistMovies(List<Movie> mappedEntities) {
+    private List<Long> persistMovies(List<Movie> mappedEntities, String fileUrl) {
         List<Long> ids = movieDAO.uploadAll(mappedEntities);
-        importService.persist(new ImportRequest(true, mappedEntities.size()));
+        importService.persist(new ImportRequest(true, mappedEntities.size(), fileUrl));
         return ids;
     }
 }
