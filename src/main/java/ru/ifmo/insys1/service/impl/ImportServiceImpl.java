@@ -12,6 +12,8 @@ import ru.ifmo.insys1.service.ImportService;
 
 import java.util.List;
 
+import static jakarta.transaction.Transactional.TxType.REQUIRES_NEW;
+
 @ApplicationScoped
 public class ImportServiceImpl implements ImportService {
 
@@ -33,6 +35,12 @@ public class ImportServiceImpl implements ImportService {
                 .stream()
                 .map(this::mapToModel)
                 .toList();
+    }
+
+    @Override
+    @Transactional(REQUIRES_NEW)
+    public void persistInNewTransaction(ImportRequest importRequest) {
+        importDAO.persist(importRequest);
     }
 
     private ImportResponse mapToModel(Import anImport) {

@@ -17,4 +17,7 @@ public class Import extends AuditingEntity {
 
     @Column(name = "count")
     private Integer count;
+
+    @Column(name = "url")
+    private String url;
 }

@@ -33,6 +33,7 @@
         <jackson-datatype-jsr310.version>2.18.0</jackson-datatype-jsr310.version>
         <resteasy-jaxrs.version>2.2.1.GA</resteasy-jaxrs.version>
         <resteasy-multipart-provider.version>2.2.0.GA</resteasy-multipart-provider.version>
+        <minio.version>8.4.3</minio.version>
     </properties>
 
     <dependencies>
@@ -146,6 +147,12 @@
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-multipart-provider</artifactId>
             <version>${resteasy-multipart-provider.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
         </dependency>
     </dependencies>
 

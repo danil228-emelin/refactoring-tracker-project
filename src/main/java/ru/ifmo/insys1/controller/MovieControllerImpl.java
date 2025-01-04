@@ -2,14 +2,20 @@ package ru.ifmo.insys1.controller;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.internal.Pair;
 import ru.ifmo.insys1.api.MovieController;
 import ru.ifmo.insys1.entity.MovieGenre;
 import ru.ifmo.insys1.request.FileUploadForm;
+import ru.ifmo.insys1.request.ImportRequest;
 import ru.ifmo.insys1.request.MovieRequest;
-import ru.ifmo.insys1.response.CountResponse;
+import ru.ifmo.insys1.request.upload.UploadMovie;
 import ru.ifmo.insys1.request.upload.reader.MovieRequestFileReader;
+import ru.ifmo.insys1.response.CountResponse;
+import ru.ifmo.insys1.service.ImportService;
+import ru.ifmo.insys1.service.MinIOMovieService;
 import ru.ifmo.insys1.service.MovieService;
 
 import java.util.List;
@@ -22,7 +28,13 @@ public class MovieControllerImpl implements MovieController {
     private MovieService movieService;
 
     @Inject
+    private MinIOMovieService minIOMovieService;
+
+    @Inject
     private MovieRequestFileReader movieRequestFileReader;
+
+    @Inject
+    private ImportService importService;
 
     @Override
     public Response getMovie(Long id) {
@@ -97,11 +109,24 @@ public class MovieControllerImpl implements MovieController {
     }
 
     @Override
+    @Transactional
     public Response upload(FileUploadForm form) {
-        List<Long> ids = movieService.uploadAll(movieRequestFileReader.read(form));
-
-        return Response.status(Response.Status.CREATED)
-                .entity(ids)
-                .build();
+        Pair<String, String> fileUrl = null;
+        try {
+            List<UploadMovie> parsedMovies = movieRequestFileReader.read(form);
+            fileUrl = minIOMovieService.saveImportFile(form);
+            List<Long> savedIds = movieService.uploadAll(parsedMovies, fileUrl);
+            log.info("Successfully uploaded movies");
+            return Response.status(Response.Status.CREATED)
+                    .entity(savedIds)
+                    .build();
+        } catch (RuntimeException e) {
+            log.error("Error while uploading movies, save failed import", e);
+            if (fileUrl != null) {
+                minIOMovieService.deleteImportFile(fileUrl.getLeft());
+            }
+            importService.persistInNewTransaction(new ImportRequest(false, 0, null));
+            throw e;
+        }
     }
 }

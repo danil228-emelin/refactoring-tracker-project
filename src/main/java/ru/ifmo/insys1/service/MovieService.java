@@ -1,5 +1,6 @@
 package ru.ifmo.insys1.service;
 
+import org.modelmapper.internal.Pair;
 import ru.ifmo.insys1.entity.MovieGenre;
 import ru.ifmo.insys1.request.MovieRequest;
 import ru.ifmo.insys1.request.upload.UploadMovie;
@@ -13,7 +14,7 @@ public interface MovieService {
 
     MovieResponse getMovie(Long id);
 
-    List<Long> uploadAll(List<UploadMovie> movies);
+    List<Long> uploadAll(List<UploadMovie> movies, Pair<String, String> fileUrl);
 
     PagedResult getAllMovies(int page, int size, String filter, String filterColumn, String sorted);
 
