@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class AuthenticatedCaller {
 
-    private Long id;
+    private Integer id;
 
     private Set<String> roles;
 

@@ -3,17 +3,18 @@ package ru.ifmo.insys1.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.ifmo.insys1.entity.LocationType;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationResponse {
 
-    private Long id;
+    private Integer id;
 
-    private long x;
+    private String address;
 
-    private int y;
+    private LocationType type;
 
     private String name;
 }

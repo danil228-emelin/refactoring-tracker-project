@@ -4,11 +4,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import ru.ifmo.insys1.api.LocationController;
-import ru.ifmo.insys1.request.LocationRequest;
+import ru.ifmo.insys1.exception.ServiceException;
+import ru.ifmo.insys1.request.LocationDTO;
 import ru.ifmo.insys1.service.LocationService;
-
-import static jakarta.ws.rs.core.Response.Status.CREATED;
-import static jakarta.ws.rs.core.Response.Status.NO_CONTENT;
 
 @ApplicationScoped
 public class LocationControllerImpl implements LocationController {
@@ -17,43 +15,30 @@ public class LocationControllerImpl implements LocationController {
     private LocationService locationService;
 
     @Override
-    public Response getLocation(Long id) {
-        var location = locationService.getLocation(id);
+    public Response getLocation(Integer id) {
+        return Response.ok(
+                locationService.findById(id)
+                        .orElseThrow(() -> new ServiceException(Response.Status.NOT_FOUND, "Location not found"))
+        ).build();
+    }
 
-        return Response.ok(location)
+    @Override
+    public Response getAllLocations() {
+        return Response.ok(locationService.findAll())
                 .build();
     }
 
     @Override
-    public Response getAllLocations(int page, int size) {
-        var locations = locationService.getAllLocations(page, size);
-
-        return Response.ok(locations)
+    public Response createLocation(LocationDTO location) {
+        locationService.save(location);
+        return Response.status(Response.Status.CREATED)
                 .build();
     }
 
     @Override
-    public Response createLocation(LocationRequest location) {
-        var createdLocation = locationService.createLocation(location);
-
-        return Response.status(CREATED)
-                .entity(createdLocation)
-                .build();
-    }
-
-    @Override
-    public Response updateLocation(Long id, LocationRequest location) {
-        locationService.updateLocation(id, location);
-
-        return Response.ok()
-                .build();
-    }
-
-    @Override
-    public Response deleteLocation(Long id) {
-        locationService.deleteLocation(id);
-
-        return Response.status(NO_CONTENT)
+    public Response deleteLocation(Integer id) {
+        locationService.delete(id);
+        return Response.status(Response.Status.NO_CONTENT)
                 .build();
     }
 }

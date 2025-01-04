@@ -57,6 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String accessToken = jwtUtil.generateAccessToken(username);
 
         return new AuthenticationResponse(
+                user.getId(),
                 accessToken,
                 user.getRole().getRoleName(),
                 user.getUsername()

@@ -4,38 +4,37 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ru.ifmo.insys1.request.LocationRequest;
+import ru.ifmo.insys1.request.LocationDTO;
 import ru.ifmo.insys1.security.JWT;
 
 import static ru.ifmo.insys1.constants.APIConstants.LOCATIONS_URI;
 
 @Path(LOCATIONS_URI)
-@Produces(MediaType.APPLICATION_JSON)
 public interface LocationController {
 
     @GET
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @JWT
-    Response getLocation(@PathParam("id") Long id);
+    Response getLocation(@PathParam("id") Integer id);
 
     @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @JWT
-    Response getAllLocations(@QueryParam("page") @DefaultValue("1") int page,
-                               @QueryParam("size") @DefaultValue("10") int size);
+    Response getAllLocations();
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @JWT
-    Response createLocation(@Valid LocationRequest location);
-
-    @PATCH
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/{id}")
-    @JWT
-    Response updateLocation(@PathParam("id") Long id, LocationRequest location);
+    Response createLocation(@Valid LocationDTO location);
 
     @DELETE
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @JWT
-    Response deleteLocation(@PathParam("id") Long id);
+    Response deleteLocation(@PathParam("id") Integer id);
 }

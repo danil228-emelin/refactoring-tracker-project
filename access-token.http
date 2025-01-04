@@ -1,0 +1,104 @@
+POST http://localhost:9090/insys-1-1.0-SNAPSHOT/api/registration
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "1"
+}
+
+####
+
+POST http://localhost:9090/insys-1-1.0-SNAPSHOT/api/authentication
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "1"
+}
+
+###
+
+POST http://localhost:9090/insys-1-1.0-SNAPSHOT/api/locations
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJ1c2VybmFtZSI6InVzZXIiLCJpYXQiOjE3MzY4NDgzMTcsImlzcyI6Inllc3RhaSIsImV4cCI6MTczNjg1MTkxN30.FZtK31TsURMAauFHaJxvjPmfYhEY-Rl3VmY8mPd0ZgQ
+
+{
+  "address": "Санкт-Петербург, Кронверский проспект",
+  "type": "STOCK",
+  "name": "ITMO University"
+}
+
+###
+
+POST http://localhost:9090/insys-1-1.0-SNAPSHOT/api/cargo-requests
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE3MzY3OTAzODIsImlzcyI6Inllc3RhaSIsImV4cCI6MTczNjc5Mzk4Mn0.cgB1i4XV18-EOEw4f1y6RlC5SYTIb5Df7HJXLcid8pg
+
+{
+  "name": "1",
+  "cargoType": "FRIDGE",
+  "receptionCenter": 1,
+  "destinationCenter": 1
+}
+
+###
+
+GET http://localhost:9090/insys-1-1.0-SNAPSHOT/api/cargo-requests/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJ1c2VybmFtZSI6IjIiLCJpYXQiOjE3MzY3OTA1NjcsImlzcyI6Inllc3RhaSIsImV4cCI6MTczNjc5NDE2N30.5Jo-DlJIeVHmBVJKmV1qV3S_xsrV5nQBo_fJBADLi9g
+
+###
+
+###
+
+POST http://localhost:9090/insys-1-1.0-SNAPSHOT/api/orders/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzM3MDQ2NjA3LCJpc3MiOiJ5ZXN0YWkiLCJleHAiOjE3MzcwNTAyMDd9.yQpP9vcNqIEjP6TR-_3ILgkQujeGrVHrgAqtNdN_I4A
+
+###
+
+POST http://localhost:9090/insys-1-1.0-SNAPSHOT/api/labels
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJ1c2VybmFtZSI6IjIiLCJpYXQiOjE3MzY3OTE2MDAsImlzcyI6Inllc3RhaSIsImV4cCI6MTczNjc5NTIwMH0.mzTl8Pa2XZsk9H08ZJZ00vqMwg5mdGOZi7eEUmUkUgo
+
+###
+
+POST http://localhost:9090/insys-1-1.0-SNAPSHOT/api/cargoes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJ1c2VybmFtZSI6IjIiLCJpYXQiOjE3MzY3OTE2MDAsImlzcyI6Inllc3RhaSIsImV4cCI6MTczNjc5NTIwMH0.mzTl8Pa2XZsk9H08ZJZ00vqMwg5mdGOZi7eEUmUkUgo
+
+{
+  "cargoRequestId": "1",
+  "weight": "25",
+  "orderId": 1,
+  "labelId": 1
+}
+
+###
+
+GET http://localhost:9090/insys-1-1.0-SNAPSHOT/api/cargoes/012345673145517462
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE3MzY3OTE4MzEsImlzcyI6Inllc3RhaSIsImV4cCI6MTczNjc5NTQzMX0.Ef5k2JiaCPhXzoarjySkmwGJMrLJrEPFU2UtjBnfF0E
+
+###
+
+POST http://localhost:9090/insys-1-1.0-SNAPSHOT/api/incidents
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJ1c2VybmFtZSI6IjIiLCJpYXQiOjE3MzY4NDU4MjgsImlzcyI6Inllc3RhaSIsImV4cCI6MTczNjg0OTQyOH0.fHCWvFg5tcuaazBcCEw3lDPPtLtVxxoqMze4dungHv0
+
+{
+  "ssccCode": "012345673145517462",
+  "description": "Треснул корпус у груза",
+  "type": "BROKEN"
+}
+
+###
+
+PATCH http://localhost:9090/insys-1-1.0-SNAPSHOT/api/cargo-status/012345673145517462
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJ1c2VybmFtZSI6IjIiLCJpYXQiOjE3MzY4NDU4MjgsImlzcyI6Inllc3RhaSIsImV4cCI6MTczNjg0OTQyOH0.fHCWvFg5tcuaazBcCEw3lDPPtLtVxxoqMze4dungHv0
+
+{
+  "locationId": "1",
+  "cargoStatusDelivery": "IN_PROGRESS"
+}

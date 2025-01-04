@@ -7,13 +7,15 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:jboss/datasources/postgres</jta-data-source>
 
-        <class>ru.ifmo.insys1.entity.Coordinates</class>
         <class>ru.ifmo.insys1.entity.Location</class>
-        <class>ru.ifmo.insys1.entity.Movie</class>
-        <class>ru.ifmo.insys1.entity.Person</class>
+        <class>ru.ifmo.insys1.entity.Location</class>
+        <class>ru.ifmo.insys1.entity.CargoStatus</class>
         <class>ru.ifmo.insys1.entity.User</class>
         <class>ru.ifmo.insys1.entity.Role</class>
-        <class>ru.ifmo.insys1.entity.Application</class>
+        <class>ru.ifmo.insys1.entity.Cargo</class>
+        <class>ru.ifmo.insys1.entity.Incident</class>
+        <class>ru.ifmo.insys1.entity.Label</class>
+        <class>ru.ifmo.insys1.entity.Order</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>

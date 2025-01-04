@@ -20,7 +20,7 @@ import ru.ifmo.insys1.service.RegistrationService;
 import java.util.Objects;
 
 import static jakarta.ws.rs.core.Response.Status.CONFLICT;
-import static ru.ifmo.insys1.constants.RoleConstant.USER;
+import static ru.ifmo.insys1.constants.RoleConstant.CLIENT;
 
 @Slf4j
 @ApplicationScoped
@@ -44,7 +44,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public RegistrationResponse register(RegistrationRequest request) {
         User converted = mapper.map(request, User.class);
-        Role userRole = roleDAO.getRoleByName(USER);
+        Role userRole = roleDAO.getRoleByName(CLIENT);
         converted.setRole(userRole);
         converted.setPassword(passwordHash.hash(converted.getPassword()));
         persistUser(converted);

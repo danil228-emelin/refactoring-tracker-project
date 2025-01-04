@@ -3,7 +3,6 @@ package ru.ifmo.insys1.dao;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import ru.ifmo.insys1.entity.Location;
 import ru.ifmo.insys1.exception.ServiceException;
@@ -20,14 +19,12 @@ public class LocationDAO {
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<Location> findById(Long id) {
+    public Optional<Location> findById(Integer id) {
         return Optional.ofNullable(em.find(Location.class, id));
     }
 
-    public List<Location> findAll(int page, int size) {
+    public List<Location> findAll() {
         return em.createQuery("FROM Location", Location.class)
-                .setFirstResult((page - 1))
-                .setMaxResults(size)
                 .getResultList();
     }
 
@@ -35,11 +32,7 @@ public class LocationDAO {
         em.persist(location);
     }
 
-    public void update(@Valid Location location) {
-        em.merge(location);
-    }
-
-    public void delete(Long id) {
+    public void delete(Integer id) {
         Location locationById = em.find(Location.class, id);
 
         if (locationById == null) {
@@ -56,7 +49,7 @@ public class LocationDAO {
     }
 
     private Long getCountBoundEntities(Location location) {
-        String query = "SELECT COUNT(id) FROM Person WHERE location = :location";
+        String query = "SELECT COUNT(id) FROM CargoStatus WHERE location = :location";
         return em.createQuery(query, Long.class)
                 .setParameter("location", location)
                 .getSingleResult();

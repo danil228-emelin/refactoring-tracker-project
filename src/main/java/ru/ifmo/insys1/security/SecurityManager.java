@@ -8,8 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import static jakarta.ws.rs.core.Response.Status.FORBIDDEN;
-import static ru.ifmo.insys1.constants.RoleConstant.ADMIN;
-import static ru.ifmo.insys1.constants.RoleConstant.USER;
+import static ru.ifmo.insys1.constants.RoleConstant.MANAGER;
+import static ru.ifmo.insys1.constants.RoleConstant.CLIENT;
 
 @RequestScoped
 public class SecurityManager {
@@ -33,16 +33,16 @@ public class SecurityManager {
         return false;
     }
 
-    public Long getCallerPrincipal() {
+    public Integer getCallerPrincipal() {
         return authenticatedCaller.getId();
     }
 
-    public void throwIfUserHasNotAccessToResource(Long resourceOwner) {
-        if (hasAnyRole(ADMIN)) {
+    public void throwIfUserHasNotAccessToResource(Integer resourceOwner) {
+        if (hasAnyRole(MANAGER)) {
             return;
         }
 
-        boolean isUserHasAccess = hasAnyRole(USER) &&
+        boolean isUserHasAccess = hasAnyRole(CLIENT) &&
                 Objects.equals(resourceOwner, getCallerPrincipal());
 
         if (!isUserHasAccess) {

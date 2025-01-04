@@ -7,13 +7,16 @@
         <dbms type="postgresql"/>
     </preConditions>
 
-    <include file="db/changelog.changeset/2024/12-10-coordinates-table.xml"/>
-    <include file="db/changelog.changeset/2024/12-10-location-table.xml"/>
-    <include file="db/changelog.changeset/2024/13-10-person-table.xml"/>
-    <include file="db/changelog.changeset/2024/13-10-movie-table.xml"/>
-    <include file="db/changelog.changeset/2024/13-10-role-table.xml"/>
-    <include file="/db/changelog.changeset/2024/13-10-users-table.xml"/>
-    <include file="/db/changelog.changeset/2024/26-10-applications-table.xml"/>
-    <include file="/db/changelog.changeset/2024/17-12-import-table.xml"/>
-    <include file="db/changelog.changeset/2024/24-12-alter-import-table-add-column-url.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-role-table.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-users-table.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-locations-table.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-cargo-status-table.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-labels-table.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-cargo-requests-table.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-orders-table.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-cargoes-table.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-incidents-table.xml"/>
+    <include file="/db/changelog.changeset/2025/07-01-get-cargo-info-function.xml"/>
+    <include file="/db/changelog.changeset/2025/11-01-notifications-table.xml"/>
+    <include file="/db/changelog.changeset/2025/08-01-register-cargo-function.xml"/>
 </databaseChangeLog>

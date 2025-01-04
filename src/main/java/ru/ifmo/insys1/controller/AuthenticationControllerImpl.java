@@ -17,7 +17,6 @@ public class AuthenticationControllerImpl implements AuthenticationController {
     @Override
     public Response authenticate(AuthenticationRequest authenticationRequest) {
         AuthenticationResponse response = authenticationService.authenticate(authenticationRequest);
-
         return Response.ok(response).build();
     }
 }

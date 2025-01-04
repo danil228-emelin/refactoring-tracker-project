@@ -19,7 +19,7 @@ public class UserDAO {
                 .findFirst();
     }
 
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(Integer id) {
         return em.createQuery("FROM User u WHERE u.id = :id", User.class)
                 .setParameter("id", id)
                 .getResultList()
@@ -27,14 +27,8 @@ public class UserDAO {
                 .findFirst();
     }
 
-    public void setAdminRole(Long userId) {
-        em.createNativeQuery("UPDATE users SET role_id = (SELECT id FROM role WHERE role_name = 'ADMIN') WHERE id = :id")
-                .setParameter("id", userId)
-                .executeUpdate();
-    }
-
-    public List<User> findAdmins() {
-        return em.createQuery("FROM User u WHERE u.role.roleName = 'ADMIN'", User.class)
+    public List<User> findManagers() {
+        return em.createQuery("FROM User u WHERE u.role.roleName = 'MANAGER'", User.class)
                 .getResultList();
     }
 

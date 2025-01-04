@@ -1,21 +1,24 @@
 package ru.ifmo.insys1.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "location")
+@Table(name = "locations")
 @Getter
 @Setter
-public class Location extends AuditingEntity {
+public class Location extends BaseEntity {
 
-    private long x;
+    private String address;
 
-    private int y;
+    @Enumerated(EnumType.STRING)
+    private LocationType type;
 
-    @NotNull
+    @NotEmpty
     private String name;
 }
