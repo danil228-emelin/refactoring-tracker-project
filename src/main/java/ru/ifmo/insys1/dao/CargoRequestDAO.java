@@ -3,6 +3,7 @@ package ru.ifmo.insys1.dao;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.core.Response;
 import ru.ifmo.insys1.entity.CargoRequest;
 import ru.ifmo.insys1.exception.ServiceException;
@@ -38,7 +39,7 @@ public class CargoRequestDAO {
         return Optional.ofNullable(
                 em.createQuery("FROM CargoRequest c WHERE c.id = :id", CargoRequest.class)
                         .setParameter("id", id)
-                        .getSingleResultOrNull()
+                        .getSingleResult()
         );
     }
 

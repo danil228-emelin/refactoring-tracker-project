@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 import ru.ifmo.insys1.dao.OrderDAO;
+import ru.ifmo.insys1.entity.CargoRequest;
 import ru.ifmo.insys1.entity.Order;
 import ru.ifmo.insys1.exception.ServiceException;
 import ru.ifmo.insys1.request.OrderDeliveryDateRequest;
@@ -13,6 +14,7 @@ import ru.ifmo.insys1.security.SecurityManager;
 import ru.ifmo.insys1.service.OrderService;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 import static ru.ifmo.insys1.constants.RoleConstant.MANAGER;
@@ -27,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
     @Inject
     private SecurityManager securityManager;
 
+
     @Override
     public Optional<OrderResponse> getOrder(Integer id) {
         return orderDAO.get(id)
@@ -34,10 +37,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderResponse> getOrdersByUserId(Integer id) {
+        return orderDAO.getOrders(id).stream()
+                .map(this::mapToResponse).toList();
+    }
+
+    @Override
     @Transactional
     public OrderResponse createOrder(String clientName) {
         if (!securityManager.hasAnyRole(OPERATOR, MANAGER)) {
-            throw new ServiceException(Response.Status.FORBIDDEN, "You are not allowed to add another order");
+            throw new ServiceException(Response.Status.FORBIDDEN, "You are not allowed to add order,only Operator or Manager");
         }
         return mapToResponse(orderDAO.persist(clientName));
     }

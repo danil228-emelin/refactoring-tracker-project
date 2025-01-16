@@ -19,4 +19,6 @@
     <include file="/db/changelog.changeset/2025/07-01-get-cargo-info-function.xml"/>
     <include file="/db/changelog.changeset/2025/11-01-notifications-table.xml"/>
     <include file="/db/changelog.changeset/2025/08-01-register-cargo-function.xml"/>
+    <include file="/db/changelog.changeset/2025/04-01-order-func.xml"/>
+
 </databaseChangeLog>

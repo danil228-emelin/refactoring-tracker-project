@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/labels.css">
+
+</head>
+<body>
+<div id="notification-area"></div>
+
+<div class="info-table-container">
+    <table class="info-table">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody id="user-info-table">
+        <tr>
+        </tr>
+        </tbody>
+    </table>
+    <script type="module" src="../js/labels.js"></script>
+</div>
+
+<div class="container">
+    <h2>Labels table</h2>
+    <!-- Buttons in a horizontal line -->
+    <div class="button-container">
+        <button id="addPersonBtn">Add Label</button>
+        <button id="goBackBtn" class="go-back-button" onclick="window.location.href='orders.html'">Go Back</button>
+        <button id="goFurtherBtn" onclick="window.location.href='cargo.html'" class="go-further-button">Go
+            Further
+        </button>
+    </div>
+    <input type="file" id="fileInput" style="display: none;" accept=".json">
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+            <tr>
+                <th>ID</th>
+                <th>ssccCode</th>
+                <th>generationDate</th>
+            </tr>
+            </thead>
+            <tbody id="tableBody">
+            <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script type='module' src="../js/labels.js"></script>
+</div>
+
+
+</body>
+</html>

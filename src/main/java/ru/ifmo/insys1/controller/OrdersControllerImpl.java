@@ -12,12 +12,19 @@ public class OrdersControllerImpl implements OrdersController {
 
     @Inject
     private OrderService orderService;
-    
+
+    @Override
+    public Response getOrdersByUserId(Integer id) {
+        return Response.ok(orderService.getOrdersByUserId(id))
+                .build();
+    }
+
     @Override
     public Response getOrder(Integer id) {
         return Response.ok(orderService.getOrder(id))
                 .build();
     }
+
 
     @Override
     public Response createOrder(String clientName) {

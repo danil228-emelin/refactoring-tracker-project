@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="105" author="danil-emelin">
+        <createProcedure>
+            CREATE OR REPLACE FUNCTION set_delivery_date()
+RETURNS TRIGGER AS $$
+            BEGIN
+    -- Check if delivery_date is NULL
+    IF NEW.delivery_date IS NULL THEN
+        NEW.delivery_date := NOW() + INTERVAL '7 days';
+            END IF;
+
+            RETURN NEW;
+            END;
+            $$ LANGUAGE plpgsql;
+        </createProcedure>
+        <sqlFile path="db/sql/create-table-orders-trigger.sql"/>
+    </changeSet>
+</databaseChangeLog>

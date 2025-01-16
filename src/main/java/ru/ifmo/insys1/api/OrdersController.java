@@ -13,6 +13,11 @@ import static ru.ifmo.insys1.constants.APIConstants.ORDERS_URI;
 public interface OrdersController {
 
     @GET
+    @Path("/user/{id}")
+    @JWT
+    Response getOrdersByUserId(@PathParam("id") Integer id);
+
+    @GET
     @Path("/{id}")
     @JWT
     Response getOrder(@PathParam("id") Integer id);

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/main2.css">
+
+</head>
+<body>
+<div id="notification-area"></div>
+
+<div class="info-table-container">
+    <table class="info-table">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody id="user-info-table">
+        <tr>
+        </tr>
+        </tbody>
+    </table>
+    <script type="module" src="../js/main.js"></script>
+</div>
+<div class="container">
+    <h2>Request table</h2>
+    <!-- Buttons in a horizontal line -->
+    <div class="button-container">
+        <button id="addPersonBtn">Add Request</button>
+        <button id="deletePersonBtn">Delete Request</button>
+        <button id="goBackBtn" class="go-back-button" onclick="window.location.href='authorization.html'">Go Back
+        </button>
+        <button id="goFurtherBtn" onclick="window.location.href='location.html'" class="go-further-button">Go
+            Further
+        </button>
+    </div>
+    <input type="file" id="fileInput" style="display: none;" accept=".json">
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Cargo type</th>
+                <th>Reception Center</th>
+                <th>Destination Center</th>
+            </tr>
+            </thead>
+            <tbody id="tableBodyOrders">
+            <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="addPersonModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="addClose">&times;</span>
+            <h3>Add new request</h3>
+            <form id="addPersonForm">
+                <label for="nameT"></label><input type="text" id="nameT" class="input-field"
+                                                  placeholder="Enter cargo Name" required>
+                <label for="name"></label><input type="text" id="name" class="input-field"
+                                                 placeholder="Enter cargo Type" required>
+                <label for="receptionCenter"></label><input type="number" id="receptionCenter" class="input-field"
+                                                            placeholder="Enter receptionCenter id"
+                                                            required>
+                <label for="destinationCenter"></label><input type="number" id="destinationCenter" class="input-field"
+                                                              placeholder="Enter destinationCenter id"
+                                                              required>
+
+                <button type="submit" class="input-field">Add Person</button>
+            </form>
+        </div>
+    </div>
+    <div id="deletePersonModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="deleteClose">&times;</span>
+            <form id="deletePersonForm">
+                <input type="number" id="delete_id" class="input-field" placeholder="Enter id" required>
+                <button type="submit" class="input-field">Delete Request</button>
+            </form>
+        </div>
+    </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
+</div>
+
+
+</body>
+</html>

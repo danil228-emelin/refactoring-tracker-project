@@ -40,9 +40,9 @@ public class CargoRequestServiceImpl implements CargoRequestService {
 
     @Override
     public List<CargoRequestResponse> getCargoRequestByClient(String clientName) {
-        if (!securityManager.hasAnyRole(MANAGER, OPERATOR)) {
-            throw new ServiceException(FORBIDDEN, "You don't have access");
-        }
+       // if (!securityManager.hasAnyRole(MANAGER, OPERATOR)) {
+       //     throw new ServiceException(FORBIDDEN, "You don't have access. Only Manager or Operator");
+        //}
         List<CargoRequest> result = cargoRequestDAO.findByClientName(clientName);
         return result.stream()
                 .map(this::mapToModel)
