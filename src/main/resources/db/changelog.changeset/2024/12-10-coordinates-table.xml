@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="1" author="yestai">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="coordinates"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="coordinates">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="x" type="float">
+                <constraints checkConstraint="CHECK(x &lt;= 912)"/>
+            </column>
+
+            <column name="y" type="int">
+                <constraints nullable="false" checkConstraint="CHECK(x &gt;= -959)"/>
+            </column>
+
+            <column name="creation_date" type="timestamp" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_by" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

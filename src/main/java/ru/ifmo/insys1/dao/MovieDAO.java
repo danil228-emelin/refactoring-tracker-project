@@ -1,0 +1,154 @@
+package ru.ifmo.insys1.dao;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import jakarta.validation.Valid;
+import ru.ifmo.insys1.entity.Movie;
+import ru.ifmo.insys1.entity.MovieGenre;
+import ru.ifmo.insys1.entity.Person;
+import ru.ifmo.insys1.exception.ServiceException;
+import ru.ifmo.insys1.response.PagedResult;
+
+import java.util.List;
+import java.util.Optional;
+
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
+
+@ApplicationScoped
+public class MovieDAO {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Inject
+    private CoordinatesDAO coordinatesDAO;
+
+    @Inject
+    private PersonDAO personDAO;
+
+    @Inject
+    private LocationDAO locationDAO;
+
+    public Optional<Movie> findById(Long id) {
+        return Optional.ofNullable(em.find(Movie.class, id));
+    }
+
+    public PagedResult findAll(int page, int size, String filter, String filterColumn, String sorted) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+
+        CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
+        Root<Movie> movie = cq.from(Movie.class);
+
+        boolean isFilterValid = filter != null &&
+                filterColumn != null &&
+                !filter.isEmpty() &&
+                !filterColumn.isEmpty();
+
+        if (isFilterValid) {
+            cq.where(cb.like(movie.get(filterColumn), "%" + filter + "%"));
+        }
+
+        if (sorted != null && !sorted.isEmpty()) {
+            cq.orderBy(cb.asc(movie.get(sorted)));
+        }
+
+        TypedQuery<Movie> query = em.createQuery(cq);
+        query.setFirstResult((page - 1) * size);
+        query.setMaxResults(size);
+        List<Movie> movies = query.getResultList();
+
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Movie> countRoot = countQuery.from(Movie.class);
+        countQuery.select(cb.count(countRoot));
+
+        if (isFilterValid) {
+            countQuery.where(cb.like(countRoot.get(filterColumn), "%" + filter + "%"));
+        }
+
+        Long totalRecords = em.createQuery(countQuery).getSingleResult();
+        int totalPages = (int) Math.ceil((double) totalRecords / size);
+
+        return new PagedResult(movies, totalPages);
+    }
+
+    public void save(Movie movie) {
+        em.persist(movie);
+    }
+
+    public void update(@Valid Movie movie) {
+        em.merge(movie);
+    }
+
+    public void delete(Long id) {
+        Movie movieById = em.find(Movie.class, id);
+        if (movieById == null) {
+            throw new ServiceException(NOT_FOUND, "Movie not found");
+        }
+        em.remove(movieById);
+    }
+
+    public void deleteMovieByTagline(String tagline) {
+        em.createNativeQuery("""
+                            DELETE FROM movie AS m\s
+                            WHERE m.id = (
+                                 SELECT mov.id\s
+                                 FROM movie AS mov\s
+                                 WHERE mov.tag_line = :tagline\s
+                                 LIMIT 1
+                             )
+                        \s""")
+                .setParameter("tagline", tagline)
+                .executeUpdate();
+    }
+
+    public Long getCountMoviesWithTagline(String tagline) {
+        return em.createQuery("SELECT COUNT(m) FROM Movie AS m WHERE m.tagline = :tagline", Long.class)
+                .setParameter("tagline", tagline)
+                .getSingleResult();
+    }
+
+    public Long getCountMoviesWithGenre(MovieGenre movieGenre) {
+        return em.createQuery("SELECT COUNT(m) FROM Movie AS m WHERE m.genre = :movieGenre", Long.class)
+                .setParameter("movieGenre", movieGenre)
+                .getSingleResult();
+    }
+
+    public List<Person> getOperatorsWithoutOscar() {
+        return em.createQuery("SELECT m.operator FROM Movie AS m WHERE m.oscarsCount = 0", Person.class)
+                .getResultList();
+    }
+
+    public void incrementOscarsCountForAllMoviesWithRCategory() {
+        em.createQuery("UPDATE Movie SET oscarsCount = oscarsCount + 1 WHERE mpaaRating = 'R'")
+                .executeUpdate();
+    }
+
+    public List<Long> uploadAll(List<Movie> movies) {
+        return movies.stream()
+                .map(this::persistMovie)
+                .toList();
+    }
+
+    private Long persistMovie(Movie movie) {
+        coordinatesDAO.save(movie.getCoordinates());
+        persistPerson(movie.getDirector());
+        persistPerson(movie.getOperator());
+        persistPerson(movie.getScreenwriter());
+        em.persist(movie);
+
+        return movie.getId();
+    }
+
+    private void persistPerson(Person person) {
+        if (person != null) {
+            locationDAO.save(person.getLocation());
+            personDAO.save(person);
+        }
+    }
+}

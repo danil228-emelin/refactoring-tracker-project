@@ -1,0 +1,36 @@
+package ru.ifmo.insys1.service;
+
+import org.modelmapper.internal.Pair;
+import ru.ifmo.insys1.entity.MovieGenre;
+import ru.ifmo.insys1.request.MovieRequest;
+import ru.ifmo.insys1.request.upload.UploadMovie;
+import ru.ifmo.insys1.response.MovieResponse;
+import ru.ifmo.insys1.response.PagedResult;
+import ru.ifmo.insys1.response.PersonResponse;
+
+import java.util.List;
+
+public interface MovieService {
+
+    MovieResponse getMovie(Long id);
+
+    List<Long> uploadAll(List<UploadMovie> movies, Pair<String, String> fileUrl);
+
+    PagedResult getAllMovies(int page, int size, String filter, String filterColumn, String sorted);
+
+    MovieResponse createMovie(MovieRequest movie);
+
+    MovieResponse updateMovie(Long id, MovieRequest movie);
+
+    void deleteMovie(Long id);
+
+    void deleteMovieByTagline(String tagline);
+
+    Long getCountMoviesWithTagline(String tagline);
+
+    Long getCountMoviesWithGenre(MovieGenre movieGenre);
+
+    List<PersonResponse> getOperatorsWithoutOscar();
+
+    void incrementOscarsCountForAllMoviesWithRCategory();
+}

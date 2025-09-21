@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="8" author="yestai">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="movie"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="movie">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="text">
+                <constraints nullable="false" checkConstraint="CHECK(LEN(name) &lt; 0)"/>
+            </column>
+
+            <column name="coordinates_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="oscars_count" type="bigint">
+                <constraints checkConstraint="CHECK(oscars_count &lt;= 0)"/>
+            </column>
+
+            <column name="budget" type="double">
+                <constraints checkConstraint="CHECK(budget &lt;= 0)"/>
+            </column>
+
+            <column name="total_box_office" type="float">
+                <constraints checkConstraint="CHECK(total_box_office &lt;= 0)"/>
+            </column>
+
+            <column name="mpaa_rating" type="text"/>
+
+            <column name="director_id" type="bigint"/>
+
+            <column name="screenwriter_id" type="bigint"/>
+
+            <column name="operator_id" type="bigint"/>
+
+            <column name="length" type="int">
+                <constraints checkConstraint="CHECK(length &lt;= 0)"/>
+            </column>
+
+            <column name="golden_palm_count" type="int">
+                <constraints checkConstraint="CHECK(golden_palm_count &lt;= 0)"/>
+            </column>
+
+            <column name="tag_line" type="text">
+                <constraints nullable="false" checkConstraint="CHECK(LEN(tag_line) &lt; 0)"/>
+            </column>
+
+            <column name="genre" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="creation_date" type="timestamp" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_by" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="coordinates_id"
+                                 baseTableName="movie"
+                                 referencedColumnNames="id"
+                                 referencedTableName="coordinates"
+                                 constraintName="movie_to_coordinates__fk"/>
+
+        <addForeignKeyConstraint baseColumnNames="director_id"
+                                 baseTableName="movie"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"
+                                 constraintName="movie_to_director__fk"/>
+
+        <addForeignKeyConstraint baseColumnNames="screenwriter_id"
+                                 baseTableName="movie"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"
+                                 constraintName="movie_to_screenwriter__fk"/>
+
+        <addForeignKeyConstraint baseColumnNames="operator_id"
+                                 baseTableName="movie"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"
+                                 constraintName="movie_to_operator__fk"/>
+    </changeSet>
+</databaseChangeLog>
