@@ -1,0 +1,291 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #FF7E5F, #FEB47B);
+    color: #333;
+}
+header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 24px;
+}
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: auto; /* Allows the column widths to adjust dynamically */
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 12px;
+    text-align: center;
+    word-wrap: break-word; /* Breaks long text into new lines */
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+}
+td {
+    background-color: #f9f9f9;
+}
+.table-container {
+    overflow-x: auto; /* Adds horizontal scrolling for very wide tables */
+}
+
+/* Button container styling */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;  /* Adds space between buttons */
+    margin: 20px 0;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    width: 150px;  /* Set a fixed width for uniform buttons */
+}
+button:hover {
+    background-color: #45a049;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.go-back-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+.go-further-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+th.sortable:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+
+.go-further-button:hover {
+    background-color: #45a049;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.info-table {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 220px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.info-table th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-table th, .info-table td {
+    border: none;
+    padding: 10px;
+    text-align: left;
+    transition: background-color 0.3s;
+}
+
+.info-table tbody tr {
+    transition: background-color 0.3s;
+}
+
+.info-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.info-table td {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+
+#notification-area {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.notification {
+    background-color: #fff;
+    border: 1px solid #007BFF;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, opacity 0.5s;
+    opacity: 0;
+    transform: translateY(20px);
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.notification.enter {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.positive {
+    border-left: 5px solid green;
+}
+
+.notification.negative {
+    border-left: 5px solid red;
+}
+
+
+.location-table-container {
+    position: absolute; /* Allows centering */
+    top: 20%; /* Position to middle */
+    left: 20%; /* Position to middle */
+    transform: translate(-50%, -50%); /* Move it back to truly center */
+    padding: 100px; /* Padding for inner spacing */
+    z-index: 10; /* Layering to ensure visibility */
+    width: 50%; /* Make the table take the full width of its container */
+    max-height: 50%; /* Optional: Adjust max height to be more responsive */
+    overflow: hidden; /* Hide scrollbars initially */
+}
+
+.location-table {
+    width: 50%; /* Make the table take the full width of its container */
+    border-collapse: collapse; /* Make borders collapse into a single border */
+    max-height: 30vh; /* Set a maximum height for the table to trigger scrolling */
+    overflow: auto; /* Enable scrolling for the table itself, if needed */
+}
+
+.location-table-container {
+    position: absolute;
+    top: 30%;
+    left: -30%;
+    transform: translate(0%, -50%);
+    z-index: 10;
+}

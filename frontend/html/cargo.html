@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/cargo.css">
+
+</head>
+<body>
+<div id="notification-area"></div>
+
+<div class="info-table-container">
+    <table class="info-table">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody id="user-info-table">
+        <tr>
+        </tr>
+        </tbody>
+    </table>
+    <script type="module" src="../js/cargo.js"></script>
+</div>
+<div class="container">
+    <h2>Cargo table</h2>
+    <!-- Buttons in a horizontal line -->
+    <div class="button-container">
+        <button id="addPersonBtn">Add Cargo</button>
+        <button id="upgradePersonBtn">Upgrade Cargo</button>
+        <button id="goBackBtn" class="go-back-button" onclick="window.location.href='labels.html'">Go Back
+        </button>
+        <button id="goFurtherBtn" onclick="window.location.href='status.html'" class="go-further-button">Go
+            Further
+        </button>
+    </div>
+    <input type="file" id="fileInput" style="display: none;" accept=".json">
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+            <tr>
+                <th>Id</th>
+                <th>Request Name</th>
+                <th>Destination Center</th>
+                <th>Reception Center</th>
+                <th>Cargo Type</th>
+                <th>Cargo Status Delivery</th>
+                <th>Current Location Type</th>
+                <th>Current Location</th>
+                <th>weight</th>
+                <th>SsccCode</th>
+                <th>ClientName</th>
+
+            </tr>
+            </thead>
+            <tbody id="tableBodyOrders">
+            <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="addPersonModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="addClose">&times;</span>
+            <h3>Add new request</h3>
+            <form id="addPersonForm">
+                <label for="nameT"></label><input type="number" id="nameT" class="input-field"
+                                                  placeholder="enter cargo Request id" required>
+                <label for="receptionCenter"></label><input type="number" id="receptionCenter" class="input-field"
+                                                            placeholder="Enter weight"
+                                                            required>
+                <label for="destinationCenter"></label><input type="number" id="destinationCenter" class="input-field"
+                                                              placeholder="Enter order Id"
+                                                              required>
+                <label for="destinationCenter"></label><input type="number" id="labelId" class="input-field"
+                                                              placeholder="Enter label Id"
+                                                              required>
+
+                <button type="submit" class="input-field">Add cargo</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="upgradePersonModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="upgradeClose">&times;</span>
+            <h3>Add new request</h3>
+            <form id="upgradePersonForm">
+                <label for="nameT"></label><input type="text" id="Upgrade" class="input-field"
+                                                  placeholder="enter sscc" required>
+                <label for="receptionCenter"></label><input type="number" id="location" class="input-field"
+                                                            placeholder="Enter new location id"
+                                                            required>
+                <label for="destinationCenter"></label><input type="text" id="cargoStatusDelivery" class="input-field"
+                                                              placeholder="Enter cargoStatusDelivery"
+                                                              required>
+
+                <button type="submit" class="input-field">Add cargo</button>
+            </form>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
+    <script type="module" src="../js/cargo.js"></script>
+</div>
+
+
+</body>
+</html>
