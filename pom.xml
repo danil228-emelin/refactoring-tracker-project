@@ -162,6 +162,11 @@
             <artifactId>smallrye-open-api-jaxrs</artifactId>
             <version>3.10.0</version> <!-- или новее -->
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-cdi</artifactId>
+            <version>4.29.2</version>
+        </dependency>
     </dependencies>
 
     <build>
