@@ -16,6 +16,7 @@ import static jakarta.ws.rs.core.Response.Status.CREATED;
 
 @ApplicationScoped
 @Slf4j
+@Tag(name = "Persons", description = "Управление персонами (режиссёры, операторы и т.д.)")
 public class PersonControllerImpl implements PersonController {
 
     @Inject
@@ -25,6 +26,9 @@ public class PersonControllerImpl implements PersonController {
     private MovieService movieService;
 
     @Override
+    @Operation(summary = "Получить персону по ID")
+    @APIResponse(responseCode = "200")
+    @APIResponse(responseCode = "404", description = "Персона не найдена")
     public Response getPerson(Long id) {
         PersonResponse personDTO = personService.getPerson(id);
 
@@ -32,6 +36,8 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
+    @Operation(summary = "Получить список персон (пагинация)")
+    @APIResponse(responseCode = "200")
     public Response getAllPersons(int page, int size) {
         List<PersonResponse> persons = personService.getAllPersons(page, size);
 
@@ -39,6 +45,8 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
+    @Operation(summary = "Создать персону")
+    @APIResponse(responseCode = "201")
     public Response createPerson(PersonRequest person) {
         PersonResponse createdPerson = personService.createPerson(person);
 
@@ -48,6 +56,9 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
+    @Operation(summary = "Обновить персону")
+    @APIResponse(responseCode = "200")
+    @APIResponse(responseCode = "404", description = "Персона не найдена")
     public Response updatePerson(Long id, PersonRequest person) {
         PersonResponse updated = personService.updatePerson(id, person);
 
@@ -55,6 +66,9 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
+    @Operation(summary = "Удалить персону")
+    @APIResponse(responseCode = "204")
+    @APIResponse(responseCode = "404", description = "Персона не найдена")
     public Response deletePerson(Long id) {
         personService.deletePerson(id);
 
@@ -63,6 +77,8 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
+    @Operation(summary = "Получить операторов без Оскара")
+    @APIResponse(responseCode = "200")
     public Response getOperatorsWithoutOscar() {
         List<PersonResponse> operatorsWithoutOscar = movieService.getOperatorsWithoutOscar();
 

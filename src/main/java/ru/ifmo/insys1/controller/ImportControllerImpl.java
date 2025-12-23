@@ -13,6 +13,7 @@ import java.util.List;
 import static ru.ifmo.insys1.constants.RoleConstant.ADMIN;
 
 @ApplicationScoped
+@Tag(name = "Imports", description = "Просмотр импортов данных")
 public class ImportControllerImpl implements ImportController {
 
     @Inject
@@ -22,6 +23,11 @@ public class ImportControllerImpl implements ImportController {
     private ImportService importService;
 
     @Override
+     @Operation(
+        summary = "Получить список импортов",
+        description = "Администраторы видят все импорты, обычные пользователи — только свои."
+    )
+    @APIResponse(responseCode = "200", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ImportResponse.class))))
     public Response getAll() {
         List<ImportResponse> models = importService.getAll()
                 .stream()

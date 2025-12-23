@@ -11,12 +11,16 @@ import static jakarta.ws.rs.core.Response.Status.CREATED;
 import static jakarta.ws.rs.core.Response.Status.NO_CONTENT;
 
 @ApplicationScoped
+@Tag(name = "Locations", description = "Управление локациями (название, координаты)")
 public class LocationControllerImpl implements LocationController {
 
     @Inject
     private LocationService locationService;
 
     @Override
+    @Operation(summary = "Получить локацию по ID")
+    @APIResponse(responseCode = "200")
+    @APIResponse(responseCode = "404", description = "Локация не найдена")
     public Response getLocation(Long id) {
         var location = locationService.getLocation(id);
 
@@ -25,6 +29,8 @@ public class LocationControllerImpl implements LocationController {
     }
 
     @Override
+    @Operation(summary = "Получить список локаций (пагинация)")
+    @APIResponse(responseCode = "200")
     public Response getAllLocations(int page, int size) {
         var locations = locationService.getAllLocations(page, size);
 
@@ -33,6 +39,8 @@ public class LocationControllerImpl implements LocationController {
     }
 
     @Override
+    @Operation(summary = "Создать локацию")
+    @APIResponse(responseCode = "201")
     public Response createLocation(LocationRequest location) {
         var createdLocation = locationService.createLocation(location);
 
@@ -42,6 +50,9 @@ public class LocationControllerImpl implements LocationController {
     }
 
     @Override
+    @Operation(summary = "Обновить локацию")
+    @APIResponse(responseCode = "200")
+    @APIResponse(responseCode = "404", description = "Локация не найдена")
     public Response updateLocation(Long id, LocationRequest location) {
         locationService.updateLocation(id, location);
 
@@ -50,6 +61,9 @@ public class LocationControllerImpl implements LocationController {
     }
 
     @Override
+    @Operation(summary = "Удалить локацию")
+    @APIResponse(responseCode = "204")
+    @APIResponse(responseCode = "404", description = "Локация не найдена")
     public Response deleteLocation(Long id) {
         locationService.deleteLocation(id);
 

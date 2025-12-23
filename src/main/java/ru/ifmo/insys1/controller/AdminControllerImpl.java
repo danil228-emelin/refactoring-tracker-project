@@ -16,6 +16,7 @@ import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
 import static ru.ifmo.insys1.constants.RoleConstant.ADMIN;
 
 @ApplicationScoped
+@Tag(name = "Admin", description = "Управление заявками на роль администратора")
 public class AdminControllerImpl implements AdminController {
 
     @Inject
@@ -25,6 +26,13 @@ public class AdminControllerImpl implements AdminController {
     private AdminService adminService;
 
     @Override
+    @Operation(
+        summary = "Подать заявку на роль администратора",
+        description = "Позволяет зарегистрированному пользователю подать заявку на получение прав администратора."
+    )
+    @APIResponse(responseCode = "201", description = "Заявка успешно подана")
+    @APIResponse(responseCode = "400", description = "Пользователь уже является администратором")
+    @APIResponse(responseCode = "401", description = "Необходимо войти в систему")
     public Response submitApplication() {
         if (securityManager.hasAnyRole(ADMIN)) {
             throw new ServiceException(
@@ -40,6 +48,12 @@ public class AdminControllerImpl implements AdminController {
     }
 
     @Override
+     @Operation(
+        summary = "Принять заявку на администрирование",
+        description = "Администратор одобряет заявку пользователя."
+    )
+    @APIResponse(responseCode = "201", description = "Заявка принята")
+    @APIResponse(responseCode = "403", description = "Только администраторы могут принимать заявки")
     public Response acceptApplication(ApplicationDTO applicationDTO) {
         if (!securityManager.hasAnyRole(ADMIN)) {
             securityManager.throwForbiddenException();
@@ -52,6 +66,12 @@ public class AdminControllerImpl implements AdminController {
     }
 
     @Override
+    @Operation(
+        summary = "Получить список всех заявок",
+        description = "Возвращает пагинированный список заявок на администрирование."
+    )
+    @APIResponse(responseCode = "200", description = "Список заявок", content = @Content(schema = @Schema(implementation = ApplicationDTO.class)))
+    @APIResponse(responseCode = "403", description = "Требуются права администратора")
     public Response getApplications(int page, int size) {
         if (!securityManager.hasAnyRole(ADMIN)) {
             securityManager.throwForbiddenException();

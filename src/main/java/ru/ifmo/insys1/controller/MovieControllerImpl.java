@@ -22,6 +22,7 @@ import java.util.List;
 
 @ApplicationScoped
 @Slf4j
+@Tag(name = "Movies", description = "Управление фильмами")
 public class MovieControllerImpl implements MovieController {
 
     @Inject
