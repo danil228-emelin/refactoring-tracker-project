@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.modelmapper.internal.Pair;
 import ru.ifmo.insys1.api.MovieController;
 import ru.ifmo.insys1.entity.MovieGenre;

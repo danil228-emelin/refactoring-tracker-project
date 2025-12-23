@@ -3,6 +3,11 @@ package ru.ifmo.insys1.controller;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ru.ifmo.insys1.api.ImportController;
 import ru.ifmo.insys1.response.ImportResponse;
 import ru.ifmo.insys1.security.SecurityManager;
@@ -27,7 +32,6 @@ public class ImportControllerImpl implements ImportController {
         summary = "Получить список импортов",
         description = "Администраторы видят все импорты, обычные пользователи — только свои."
     )
-    @APIResponse(responseCode = "200", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ImportResponse.class))))
     public Response getAll() {
         List<ImportResponse> models = importService.getAll()
                 .stream()

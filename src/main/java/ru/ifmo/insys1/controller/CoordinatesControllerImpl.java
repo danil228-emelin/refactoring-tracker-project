@@ -3,6 +3,11 @@ package ru.ifmo.insys1.controller;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ru.ifmo.insys1.api.CoordinatesController;
 import ru.ifmo.insys1.request.CoordinatesRequest;
 import ru.ifmo.insys1.response.CoordinatesResponse;
@@ -33,7 +38,6 @@ public class CoordinatesControllerImpl implements CoordinatesController {
 
     @Override
     @Operation(summary = "Получить список координат (пагинация)")   
-    @APIResponse(responseCode = "200", content = @Content(array = @ArraySchema(schema = @Schema(implementation = CoordinatesResponse.class))))
     public Response getAllCoordinates(int page, int size) {
         List<CoordinatesResponse> allCoordinates = coordinatesService.getAllCoordinates(page, size);
 
