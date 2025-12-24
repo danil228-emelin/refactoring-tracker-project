@@ -5,9 +5,8 @@
              version="3.2">
     <persistence-unit name="default" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>java:jboss/datasources/postgres</jta-data-source>
 
-        <class>ru.ifmo.insys1.entity.Location</class>
+
         <class>ru.ifmo.insys1.entity.Location</class>
         <class>ru.ifmo.insys1.entity.CargoStatus</class>
         <class>ru.ifmo.insys1.entity.User</class>
@@ -18,14 +17,23 @@
         <class>ru.ifmo.insys1.entity.Order</class>
 
         <properties>
+            <property name="hibernate.jpa.compliance.query" value="false"/>
+            <!-- Прямые JDBC настройки (оставить ТОЛЬКО их) -->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5431/is"/>
-            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="postgres"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/user"/>
+            <property name="jakarta.persistence.jdbc.user" value="user"/>
+            <property name="jakarta.persistence.jdbc.password" value="1"/>
+
+            <!-- Hibernate настройки -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.jpa.compliance.query" value="false"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform"/>
+
+            <!-- Опционально: пул соединений -->
+            <property name="hibernate.connection.pool_size" value="10"/>
+            <property name="hibernate.connection.autocommit" value="false"/>
         </properties>
     </persistence-unit>
 </persistence>

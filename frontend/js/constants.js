@@ -1,5 +1,5 @@
 // NEED TO CHANGE WHEN GO TO HELIOS
-export const backendUrl  = 'http://localhost:9090/insys-1-1.0-SNAPSHOT/api';
+export const backendUrl  = 'http://127.0.0.1:8080/insys-1-1.0-SNAPSHOT/api';
 
 
 export const CARGOES_URI = "/cargoes";

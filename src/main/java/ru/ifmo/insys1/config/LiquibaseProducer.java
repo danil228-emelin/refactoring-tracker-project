@@ -23,7 +23,7 @@ import java.sql.SQLException;
 @TransactionManagement(TransactionManagementType.BEAN)
 public class LiquibaseProducer {
 
-    @Resource(lookup = "java:jboss/datasources/postgres")
+    @Inject
     private DataSource dataSource;
 
     @Inject
